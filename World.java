@@ -13,12 +13,13 @@ public class World extends JPanel{
   //Fields
 
   //ROBOT position
-  public int xPos = 0;
-  public int yPos = 0;
+  Robot robot;
 
   //constructor
-  public World(){
+  public World(Robot newRobot){
     super(); //Call the constructor of JPanel
+
+    robot = newRobot;
     setBackground(Color.WHITE);
   }
 
@@ -35,7 +36,6 @@ public class World extends JPanel{
 
     g2.setColor(Color.GREEN);
 
-    g2.fillOval(xPos, yPos, 10, 10);
-    System.out.println(xPos);
+    g2.fillOval(robot.getX(), robot.getY(), 10, 10);
   }
 }
