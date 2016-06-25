@@ -1,4 +1,4 @@
-package graphics;
+//package graphics;
 
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
@@ -22,22 +22,22 @@ public class MyKeyListener implements KeyListener{
   //Methods for the keyboard
   public void keyPressed(KeyEvent e){
     if(e.getKeyCode() == KeyEvent.VK_UP){
-      System.out.println("UP");
+      //System.out.println("UP");
       robot.move();
     }
 
     else if(e.getKeyCode() == KeyEvent.VK_DOWN){
-      System.out.println("DOWN");
+      //System.out.println("DOWN");
       robot.back();
     }
 
     else if(e.getKeyCode() == KeyEvent.VK_LEFT){
-      System.out.println("LEFT");
+      //System.out.println("LEFT");
       robot.turnLeft();
     }
 
     else if(e.getKeyCode() == KeyEvent.VK_RIGHT){
-      System.out.println("RIGHT" + Math.cos(0.5));
+      //System.out.println("RIGHT" + Math.cos(0.5));
       robot.turnRight();
     }
   }

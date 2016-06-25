@@ -1,7 +1,7 @@
 /*
 * Contains the basic drawing board
 */
-package graphics;
+//package graphics;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -16,25 +16,27 @@ public class World extends JPanel{
 
   //ROBOT position
   Robot robot;
+  Sensor[] sensor;
 
   //Path of the robot
-  int[] xPath;
-  int[] yPath;
+  PathArray xPath;
+  PathArray yPath;
 
   PathArray path;
 
 
   //constructor
-  public World(Robot newRobot, PathArray newXPath, PathArray newYPath){
+  public World(Robot newRobot, Sensor[] newSensor, PathArray newXPath, PathArray newYPath){
     super(); //Call the constructor of JPanel
 
     robot = newRobot;
+    sensor = newSensor;
     setBackground(Color.WHITE);
 
     path = newXPath;
 
-    xPath = newXPath.getPath();
-    yPath = newYPath.getPath();
+    xPath = newXPath;
+    yPath = newYPath;
 
   }
 
@@ -53,42 +55,26 @@ public class World extends JPanel{
     g2.setColor(Color.GREEN);
     g2.fillOval(robot.getX()-5, robot.getY()-5, 10, 10);
 
+    //head of robot
     g2.setStroke(new BasicStroke(5));
     g2.drawLine(robot.getX(), robot.getY(), (int) (robot.getX() + 10*Math.cos(robot.getHeading())), (int) (robot.getY() + 10*Math.sin(robot.getHeading())));
 
+    //sensor
+    for(int i = 0; i<5; i++){
+      if(sensor[i].detectBorder()){
+        g2.setColor(Color.RED);
+      } else{g2.setColor(Color.BLUE);}
+
+      g2.setStroke(new BasicStroke(1));
+      g2.drawLine(robot.getX(), robot.getY(), sensor[i].getEndpointX(), sensor[i].getEndpointY());
+    }
     //Path
-    g2.setColor(Color.RED);
-    g2.setStroke(new BasicStroke(5));
-    GeneralPath robotPath = new GeneralPath();
+    for(int i = 0; i < path.getLength(); i++){
+      g2.setColor(new Color(255 - 4*i,255 - 2*i, 255 -  5*i));
+      g2.fillOval(xPath.getPath()[i]-2, yPath.getPath()[i]-2, 4, 4);
 
-    robotPath.moveTo(xPath[0], yPath[0]);
-
-    for(int i = 0; i < path.getCurI(); i++){
-       robotPath.lineTo(xPath[i], yPath[i]);
-       System.out.println(xPath[i]+"  "+ yPath[i]);
     }
 
-    g2.draw(robotPath);
   }
 
-  //Methods for collusion check
-
-  //Collision detection
-  //Note: The first two value of fillOval is the upper left corner coordinate
-  public boolean borderCollision(){
-    boolean collided = false;
-
-    int curX = robot.getX();
-    int curY = robot.getY();
-
-    if( curX < 15 || curX > 475 ){
-      System.out.println("Collied with wall");
-      collided = true;
-    }
-    if( curY < 15 || curY > 475 ){
-      System.out.println("Collied with wall");
-      collided = true;
-    }
-    return collided;
-  }
 }

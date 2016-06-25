@@ -1,7 +1,7 @@
 /*
 * ROBOT status
 */
-package graphics;
+//package graphics;
 
 public class Robot{
   //Fields
@@ -13,18 +13,14 @@ public class Robot{
 
   public double heading = 0; //Initial heading 0
 
-
   //Constructor
   public Robot(int newX,int newY){
     //Initialize the position of the robot
     xPos = newX;
     yPos = newY;
 
-    xPath = new PathArray();
-    yPath = new PathArray();
-
-    xPath.append(xPos);
-    yPath.append(yPos);
+    xPath = new PathArray(xPos);
+    yPath = new PathArray(xPos);
   }
 
   //Getter
@@ -39,8 +35,8 @@ public class Robot{
     xPos = newX;
     yPos = newY;
   }
-  public void turnLeft(){heading-=0.05;}
-  public void turnRight(){heading+=0.05;}
+  public void turnLeft(){heading-=0.09;}
+  public void turnRight(){heading+=0.09;}
   public void setHeading(double newHeading){heading = newHeading;}
 
   /* Need to test this more
@@ -52,8 +48,8 @@ public class Robot{
 
   //Methods//
   public void move(){
-    xPos+=5*Math.cos(heading);
-    yPos+=5*Math.sin(heading);
+    xPos+=3*Math.cos(heading);
+    yPos+=3*Math.sin(heading);
     xPath.append(xPos);
     yPath.append(yPos);
   }
@@ -61,6 +57,27 @@ public class Robot{
   public void back(){
     xPos-=5*Math.cos(heading);
     yPos-=5*Math.sin(heading);;
+  }
+
+  //Collusion check
+  //Collision detection
+  //Note: The first two value of fillOval is the upper left corner coordinate
+  public boolean borderCollision(){
+    boolean collided = false;
+
+    if( xPos < 15 || xPos > 475 ){
+      System.out.println("Collied with wall");
+      collided = true;
+      xPath.reset();
+      yPath.reset();
+    }
+    if( yPos < 15 || yPos > 475 ){
+      System.out.println("Collied with wall");
+      collided = true;
+      xPath.reset();
+      yPath.reset();
+    }
+    return collided;
   }
 
 }

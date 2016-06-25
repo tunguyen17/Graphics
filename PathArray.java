@@ -1,33 +1,45 @@
-package graphics;
+//package graphics;
+import java.util.LinkedList;
 
 public class PathArray{
   //Fields
+  LinkedList<Integer> list;
   int[] array;
-  int i = 0;
-  int curLength = 1000;
+  int initPos;
+
+  int curLength = 50;
   //Constructor
-  public PathArray(){
+  public PathArray(int pos){
+    initPos = pos;
+
+    list = new LinkedList<Integer>();
     array = new int[curLength];
+    //Initialize
+    for(int i = 0; i < curLength; i++){
+      list.add(initPos);
+    }
   }
 
   //Getter
   public int[] getPath(){return array;}
-  public int getCurI(){return i;}
+
+  public int getLength(){return curLength;}
   //Methods
   public void append(int newInt){
+    list.removeFirst();
+    list.addLast(newInt);
 
-    //Duplicating array
-    if(i >= curLength){
-      curLength *=2;
-      int[] newArray = new int[curLength];
-      for(int j = 0; j < curLength/2; j++){
-        newArray[j] = array[j];
-      }
-      array = newArray;
+    //Update path
+    for(int i = 0; i < curLength; i++){
+      array[i] = list.get(i);
     }
-    //add new int
-    array[i] = newInt;
-    i++;
+  }
+
+  //Methods
+  public void reset(){
+      for(int i = 0; i < curLength; i++){
+        list.set(i, initPos);
+      }
   }
 
 }
