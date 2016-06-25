@@ -1,6 +1,7 @@
 /*
 * This is the container of the drawing board
 */
+package graphics;
 
 import javax.swing.JFrame;
 

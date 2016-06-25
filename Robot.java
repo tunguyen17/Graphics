@@ -1,13 +1,17 @@
 /*
 * ROBOT status
 */
+package graphics;
 
 public class Robot{
   //Fields
   public int xPos;
   public int yPos;
 
-  public boolean collided; //Collision boolean
+  public PathArray xPath;
+  public PathArray yPath;
+
+  public double heading = 0; //Initial heading 0
 
 
   //Constructor
@@ -16,28 +20,47 @@ public class Robot{
     xPos = newX;
     yPos = newY;
 
-    collided = isCollided();
+    xPath = new PathArray();
+    yPath = new PathArray();
+
+    xPath.append(xPos);
+    yPath.append(yPos);
   }
 
   //Getter
   public int getX(){return xPos;}
   public int getY(){return yPos;}
+  public double getHeading(){return heading;}
+  public PathArray getXPath(){return xPath;}
+  public PathArray getYPath(){return yPath;}
 
   //Setter
-
   public void setPos(int newX, int newY){
     xPos = newX;
     yPos = newY;
   }
+  public void turnLeft(){heading-=0.05;}
+  public void turnRight(){heading+=0.05;}
+  public void setHeading(double newHeading){heading = newHeading;}
 
-  public void move(int x, int y){
-    xPos+=x;
-    yPos+=y;
+  /* Need to test this more
+  public void bounce(){
+    heading += Math.PI;
+    System.out.println("heading");
+  }
+  */
+
+  //Methods//
+  public void move(){
+    xPos+=5*Math.cos(heading);
+    yPos+=5*Math.sin(heading);
+    xPath.append(xPos);
+    yPath.append(yPos);
   }
 
-  //Methods
-  public boolean isCollided(){
-    return true;
+  public void back(){
+    xPos-=5*Math.cos(heading);
+    yPos-=5*Math.sin(heading);;
   }
 
 }
