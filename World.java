@@ -15,14 +15,14 @@ public class World extends JPanel{
   //Fields
 
   //ROBOT position
-  Robot robot;
-  Sensor[] sensor;
+  public Robot robot;
+  public Sensor[] sensor;
 
   //Path of the robot
-  PathArray xPath;
-  PathArray yPath;
+  public PathArray xPath;
+  public PathArray yPath;
 
-  PathArray path;
+  public PathArray path;
 
 
   //constructor
@@ -62,7 +62,7 @@ public class World extends JPanel{
 
     //sensor
     for(int i = 0; i<5; i++){
-      if(sensor[i].detectBorder()){
+      if(sensor[i].detectBorder()==1){
         g2.setColor(Color.RED);
       } else{g2.setColor(Color.BLUE);}
 

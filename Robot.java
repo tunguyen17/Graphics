@@ -66,13 +66,13 @@ public class Robot{
     boolean collided = false;
 
     if( xPos < 15 || xPos > 475 ){
-      System.out.println("Collied with wall");
+      //System.out.println("Collied with wall");
       collided = true;
       xPath.reset();
       yPath.reset();
     }
     if( yPos < 15 || yPos > 475 ){
-      System.out.println("Collied with wall");
+      //System.out.println("Collied with wall");
       collided = true;
       xPath.reset();
       yPath.reset();

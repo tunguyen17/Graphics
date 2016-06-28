@@ -5,7 +5,7 @@ public class Sensor{
   double relativeHeading;
 
   int maxDistance = 50;
-  boolean sensorBar;
+  int sensorBar;
 
   int num;
 
@@ -14,7 +14,7 @@ public class Sensor{
   public Sensor(Robot newRobot, double newrelativeHeading, int newNumber){
     num = newNumber;
     robot = newRobot;
-    sensorBar = false;
+    sensorBar = 0;
     relativeHeading = newrelativeHeading;
   }
 
@@ -27,15 +27,17 @@ public class Sensor{
     return (int) (robot.getY() + maxDistance*Math.sin(relativeHeading+robot.getHeading()));
   }
 
-  public boolean detectBorder(){
+  public int detectBorder(){
 
     if( getEndpointX() < 15 || getEndpointX() > 475 ){
-      sensorBar = true;
+      sensorBar = 1;
     } else if ( getEndpointY() < 15 || getEndpointY() > 475 ){
-      sensorBar = true;
-    } else{sensorBar = false;}
+      sensorBar = 1;
+    } else{sensorBar = 0;}
 
-    if(sensorBar){System.out.println("Border Detected" + num);}
+    if(sensorBar==1){
+      //System.out.println("Border Detected" + num);
+    }
 
     return sensorBar;
   }

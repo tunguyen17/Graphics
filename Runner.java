@@ -8,7 +8,7 @@ import java.awt.BorderLayout;
 public class Runner{
   public static void main(String[] args) throws InterruptedException{
 
-    Robot prez = new Robot(300,300);
+    Robot prez = new Robot(100,100);
 
     Sensor[] yoda = new Sensor[5];
 
@@ -18,6 +18,8 @@ public class Runner{
     yoda[3] = new Sensor(prez, Math.PI/4, 3);
     yoda[4] = new Sensor(prez, Math.PI/2, 4);
 
+    //DRIVER
+    Driver nancy = new Driver(prez, yoda);
 
     Container window = new Container();
     World earth = new World(prez, yoda, prez.getXPath(), prez.getYPath());
@@ -33,13 +35,13 @@ public class Runner{
     earth.requestFocusInWindow();
     //Repaint things
     while(true){
-      Thread.sleep(50);
+      Thread.sleep(5);
       for(int i = 0; i<5; i++){yoda[i].detectBorder();}
+      nancy.learn();
       prez.move();
-      if(prez.borderCollision()){
-        prez.setPos(300, 300);
-        prez.setHeading(0);
-      }
+
+      //nancy.update();
+
       earth.repaint();
     }
   }
