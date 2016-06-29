@@ -50,8 +50,8 @@ public class Robot{
     yIntPos = newY;
   }
 
-  public void turnLeft(){heading-=0.09;}
-  public void turnRight(){heading+=0.09;}
+  public void turnLeft(){heading-=30*Math.PI/360;}
+  public void turnRight(){heading+=30*Math.PI/360;}
   public void setHeading(double newHeading){heading = newHeading;}
 
   /* Need to test this more
@@ -63,8 +63,8 @@ public class Robot{
 
   //Methods//
   public void move(){
-    xPos+=3*Math.cos(heading)+0.5;
-    yPos+=3*Math.sin(heading)+0.5;
+    xPos+=Math.cos(heading)+0.1;
+    yPos+=Math.sin(heading)+0.1;
     xPath.append(xPos);
     yPath.append(yPos);
   }

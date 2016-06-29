@@ -4,7 +4,7 @@ public class Sensor{
 
   double relativeHeading;
 
-  int maxDistance = 30;
+  int maxDistance = 50;
   int sensorBar;
 
   int num;

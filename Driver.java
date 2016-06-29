@@ -28,6 +28,8 @@ public class Driver{
 
   public int iteration=0;
 
+  public int counter = 0;
+
   //Constructor
   public Driver(Robot newRobot, Sensor[] newSensorList){
     robot = newRobot;
@@ -73,11 +75,12 @@ public class Driver{
     drive(action);
 
     if(robot.borderCollision()){
-      reward = -100;
+      reward = -80;
 
       //Reset State
       prevState = 0;
       currState = 0;
+      counter = 0;
 
       System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
       robot.setPos(robot.getIntX(), robot.getIntY());
@@ -87,14 +90,15 @@ public class Driver{
       System.out.println("-------- ITERATION " + iteration);
 
     } else if( currState == 0 && prevState != 0){
-      reward = 50;
-      System.out.println(ANSI_CYAN + "Robot escaped " + reward + ANSI_RESET);
-    }else {reward = -3;}
+      counter++;
+      reward = counter*0.5*50;
+      System.out.println(ANSI_CYAN + "Robot escaped " + reward + "--" + counter + ANSI_RESET);
+    }else {reward = -50;}
 
 
 
     // newQ += learnging rate * (reward + gamma.maxCurrentQ(currentState, currentAction) - oldQ)
-    prevQ[prevAction] += 0.1 * (reward + 0.3*currQ[action] - prevQ[prevAction]);
+    prevQ[prevAction] += 0.3 * (reward + 0.3*currQ[action] - prevQ[prevAction]);
 
     //System.out.print(currQ[0]+"  ");
     //System.out.print(currQ[1]+"  ");

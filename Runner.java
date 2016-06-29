@@ -36,7 +36,7 @@ public class Runner{
     earth.requestFocusInWindow();
     //Repaint things
     while(true){
-      Thread.sleep(1);
+      Thread.sleep(5);
       for(int i = 0; i<5; i++){yoda[i].detectBorder();}
       nancy.learn();
       prez.move();
