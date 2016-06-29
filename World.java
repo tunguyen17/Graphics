@@ -24,6 +24,7 @@ public class World extends JPanel{
 
   public PathArray path;
 
+  public GoldenBox box;
 
   //constructor
   public World(Robot newRobot, Sensor[] newSensor, PathArray newXPath, PathArray newYPath){
@@ -47,6 +48,8 @@ public class World extends JPanel{
     super.paintComponent(g); //Wipe the paint board
 
     Graphics2D g2 = (Graphics2D) g;
+
+
 
     //Border
     g2.setStroke(new BasicStroke(2)); //Border-thickness = 2px

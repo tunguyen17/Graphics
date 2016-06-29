@@ -5,6 +5,9 @@
 
 public class Robot{
   //Fields
+  public int xIntPos;
+  public int yIntPos;
+
   public int xPos;
   public int yPos;
 
@@ -19,11 +22,17 @@ public class Robot{
     xPos = newX;
     yPos = newY;
 
+    xIntPos = newX;
+    yIntPos = newY;
+
     xPath = new PathArray(xPos);
     yPath = new PathArray(xPos);
   }
 
   //Getter
+  public int getIntX(){return xIntPos;}
+  public int getIntY(){return yIntPos;}
+
   public int getX(){return xPos;}
   public int getY(){return yPos;}
   public double getHeading(){return heading;}
@@ -35,6 +44,12 @@ public class Robot{
     xPos = newX;
     yPos = newY;
   }
+
+  public void setIntPos(int newX, int newY){
+    xIntPos = newX;
+    yIntPos = newY;
+  }
+
   public void turnLeft(){heading-=0.09;}
   public void turnRight(){heading+=0.09;}
   public void setHeading(double newHeading){heading = newHeading;}
@@ -48,8 +63,8 @@ public class Robot{
 
   //Methods//
   public void move(){
-    xPos+=3*Math.cos(heading);
-    yPos+=3*Math.sin(heading);
+    xPos+=3*Math.cos(heading)+0.5;
+    yPos+=3*Math.sin(heading)+0.5;
     xPath.append(xPos);
     yPath.append(yPos);
   }

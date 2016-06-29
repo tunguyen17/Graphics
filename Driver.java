@@ -2,19 +2,31 @@ import java.util.Arrays;
 
 public class Driver{
   //Fields
+
+  //for text color
+  public static final String ANSI_RESET = "\u001B[0m";
+  public static final String ANSI_RED = "\u001B[31m";
+  public static final String ANSI_CYAN = "\u001B[36m";
+
   public Robot robot;
+
   public int[] sensorCluster;
   public Sensor[] sensorList;
 
   public double[][] qMat;
 
+  public int prevState = 0;
   public int currState = 0; //Default value is 0
 
+  public double[] prevQ;
   public double[] currQ;
 
-  public int action;
+  public int prevAction =0;
+  public int action = 0;
 
   public double reward;
+
+  public int iteration=0;
 
   //Constructor
   public Driver(Robot newRobot, Sensor[] newSensorList){
@@ -27,6 +39,7 @@ public class Driver{
     qMat = new double[32][3];
 
     currQ = new double[3];
+    prevQ = new double[3];
 
   }
 
@@ -35,35 +48,53 @@ public class Driver{
   //Finding value of the current state;
   public int update(){
 
-    currState = 0; //Reset Curr state
+    //Updte previousState and reset currentState
+    prevState = currState;
+    currState = 0;
 
     for(int i = 0; i<sensorList.length; i++){
       sensorCluster[i] = sensorList[i].detectBorder();
       currState += Math.pow(2, i)*sensorCluster[i];
       //System.out.print(sensorCluster[i] + "  ");
     }
-    //System.out.println();
+
     return currState;
   }
 
   public void learn(){
-    update(); //get the current state;
 
     currQ = qMat[update()];
 
-    //getAction
+
+    //Save old action and update new action
+    prevAction = action;
     action = max(currQ);
 
     drive(action);
 
     if(robot.borderCollision()){
-      reward = -10;
-      System.out.println("Robot collided");
-    } else reward = 0;
+      reward = -100;
+
+      //Reset State
+      prevState = 0;
+      currState = 0;
+
+      System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
+      robot.setPos(robot.getIntX(), robot.getIntY());
+      robot.setHeading(2*Math.PI*Math.random());
+
+      iteration++;
+      System.out.println("-------- ITERATION " + iteration);
+
+    } else if( currState == 0 && prevState != 0){
+      reward = 50;
+      System.out.println(ANSI_CYAN + "Robot escaped " + reward + ANSI_RESET);
+    }else {reward = -3;}
 
 
-    // newQ += learnging rate * (reward - oldQ)
-    currQ[action] += 1 * (reward - currQ[action]);
+
+    // newQ += learnging rate * (reward + gamma.maxCurrentQ(currentState, currentAction) - oldQ)
+    prevQ[prevAction] += 0.1 * (reward + 0.3*currQ[action] - prevQ[prevAction]);
 
     //System.out.print(currQ[0]+"  ");
     //System.out.print(currQ[1]+"  ");
@@ -71,20 +102,9 @@ public class Driver{
 
     //update Q-matrix
     qMat[currState] = currQ;
+    prevQ = currQ;
 
-    if(robot.borderCollision()){
-      robot.setPos(100, 100);
-      robot.setHeading(0);
-
-      for(int i = 0; i < 32; i++){
-        for(int j = 0; j< 3; j++){
-          System.out.print(qMat[i][j] + "   ");
-        }
-        System.out.println();
-      }
-      System.out.println("--------");
-
-    }
+    qMat[0] =new double[] {0, 0, 0};
 
   }
 
@@ -107,9 +127,23 @@ public class Driver{
 
   //Methods for finding max qValue
   public int max(double[] array){
+
     int i=0;
-    if(array[0] < array[1]){ i = 1; }
-    if(array[i] < array[2]){i = 2; }
+
+    //IF the 3 Q value are equal then pick 1 of 3
+    if(array[0] == array[1] && array[1] == array[2]){
+      i = (int) (3*Math.random());
+      //System.out.println("________EQUAL____________________");
+    } else {
+      //expoitation
+      if(array[0] < array[1]){ i = 1; }
+      if(array[i] < array[2]){i = 2; }
+      //Exploration
+      if(Math.random() <0.05 && iteration < 50){
+        i = (int) (3*Math.random());
+        System.out.println("________DoRA Explora____________________");
+      }
+    }
   return i;
   }
 

@@ -4,7 +4,7 @@ public class Sensor{
 
   double relativeHeading;
 
-  int maxDistance = 50;
+  int maxDistance = 30;
   int sensorBar;
 
   int num;
@@ -20,11 +20,11 @@ public class Sensor{
 
   //Getter
   public int getEndpointX(){
-    return (int) (robot.getX() + maxDistance*Math.cos(relativeHeading+robot.getHeading()));
+    return (int) (robot.getX() + maxDistance*Math.cos(relativeHeading+robot.getHeading()) + 0.5);
   }
 
   public int getEndpointY(){
-    return (int) (robot.getY() + maxDistance*Math.sin(relativeHeading+robot.getHeading()));
+    return (int) (robot.getY() + maxDistance*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
   }
 
   public int detectBorder(){
