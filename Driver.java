@@ -75,7 +75,7 @@ public class Driver{
     drive(action);
 
     if(robot.borderCollision()){
-      reward = -80;
+      reward = -30;
 
       //Reset State
       prevState = 0;
@@ -91,9 +91,12 @@ public class Driver{
 
     } else if( currState == 0 && prevState != 0){
       counter++;
-      reward = 0;
-      System.out.println(ANSI_CYAN + "Robot escaped " + reward + "--" + counter + ANSI_RESET);
-    }else {reward = -100;}
+      reward = 30;
+      System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
+    }else {
+      reward = -30;
+      //System.out.println("Robot traped " + reward + " -- ");
+    }
 
 
 
@@ -108,7 +111,7 @@ public class Driver{
     qMat[currState] = currQ;
     prevQ = currQ;
 
-    qMat[0] =new double[] {0, 0, 0};
+    //qMat[0] =new double[] {0, 0, 0};
 
   }
 
@@ -143,7 +146,7 @@ public class Driver{
       if(array[0] < array[1]){ i = 1; }
       if(array[i] < array[2]){i = 2; }
       //Exploration
-      if(Math.random() <0.05 && iteration < 50){
+      if(Math.random() <0.05 && iteration < 30){
         i = (int) (3*Math.random());
         System.out.println("________DoRA Explora____________________");
       }
