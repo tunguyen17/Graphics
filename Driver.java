@@ -91,9 +91,9 @@ public class Driver{
 
     } else if( currState == 0 && prevState != 0){
       counter++;
-      reward = counter*0.5*50;
+      reward = 0;
       System.out.println(ANSI_CYAN + "Robot escaped " + reward + "--" + counter + ANSI_RESET);
-    }else {reward = -50;}
+    }else {reward = -100;}
 
 
 
