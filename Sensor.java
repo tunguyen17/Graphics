@@ -35,4 +35,11 @@ public class Sensor{
     return sensorBar;
   }
 
+  public int detectBox(){
+    if( tester.boxCollusion( getEndpointX(), getEndpointY() ) ){
+      sensorBar = 1;
+    } else{sensorBar = 0;}
+    return sensorBar;
+  }
+
 }

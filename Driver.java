@@ -40,7 +40,7 @@ public class Driver{
 
     sensorCluster = new int[sensorList.length];
 
-    qMat = new double[32][3];
+    qMat = new double[32][5];
 
     currQ = new double[3];
     prevQ = new double[3];
@@ -48,22 +48,6 @@ public class Driver{
   }
 
   //methods
-
-  //Finding value of the current state;
-  public int update(){
-
-    //Updte previousState and reset currentState
-    prevState = currState;
-    currState = 0;
-
-    for(int i = 0; i<sensorList.length; i++){
-      sensorCluster[i] = sensorList[i].detectBorder();
-      currState += Math.pow(2, i)*sensorCluster[i];
-      //System.out.print(sensorCluster[i] + "  ");
-    }
-
-    return currState;
-  }
 
   public void learn(){
 
@@ -76,7 +60,7 @@ public class Driver{
 
     drive(action);
 
-    if(tester.borderCollision()){
+    if( tester.borderCollision() || tester.boxCollision() ){
       reward = -30;
 
       //Reset State
@@ -86,17 +70,16 @@ public class Driver{
 
       System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
       robot.reset();
-      robot.setHeading(2*Math.PI*Math.random());
 
       iteration++;
       System.out.println("-------- ITERATION " + iteration);
 
     } else if( currState == 0 && prevState != 0){
       counter++;
-      reward = 30;
+      reward = 3;
       System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
     }else {
-      //reward = -30;
+      reward = 3;
       //System.out.println("Robot traped " + reward + " -- ");
     }
 
@@ -117,17 +100,38 @@ public class Driver{
 
   }
 
+  //Finding value of the current state;
+public int update(){
+
+  //Updte previousState and reset currentState
+  prevState = currState;
+  currState = 0;
+
+  for(int i = 0; i<sensorList.length; i++){
+    sensorCluster[i] = sensorList[i].detectBorder();
+    currState += Math.pow(2, i)*sensorCluster[i];
+    //System.out.print(sensorCluster[i] + "  ");
+  }
+
+  return currState;
+}
+
   public void drive(int input){
     switch(input){
 
-      case 0: robot.turnLeft();
+      case 0: robot.turnLeft2();
               break;
 
-      case 1: break;
-
-      case 2: robot.turnRight();
+      case 1: robot.turnLeft();
               break;
 
+      case 2: break;
+
+      case 3: robot.turnRight();
+              break;
+
+      case 4: robot.turnRight2();
+              break;
       default: break;
 
     }
@@ -137,23 +141,22 @@ public class Driver{
   //Methods for finding max qValue
   public int max(double[] array){
 
-    int i=0;
+    int max0;
+    int max1;
+    int max;
 
-    //IF the 3 Q value are equal then pick 1 of 3
-    if(array[0] == array[1] && array[1] == array[2]){
-      i = (int) (3*Math.random());
-      //System.out.println("________EQUAL____________________");
+    //Exploration
+    if(Math.random() <0.05 && iteration < 30){
+      max = (int) (3*Math.random());
+      System.out.println("________DoRA Explora____________________");
     } else {
-      //expoitation
-      if(array[0] < array[1]){ i = 1; }
-      if(array[i] < array[2]){i = 2; }
-      //Exploration
-      if(Math.random() <0.05 && iteration < 30){
-        i = (int) (3*Math.random());
-        System.out.println("________DoRA Explora____________________");
-      }
+      //expliotation
+      if(array[0] > array[1]) max0 = 0; else max0 = 1;
+      if(array[2] > array[3]) max1 = 2; else max1 = 3;
+      if(array[max0] > array[max1]) max = max0; else max = max1;
+      if(array[max] < array[4]) max = 4;
     }
-  return i;
+  return max;
   }
 
 }

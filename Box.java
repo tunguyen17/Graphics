@@ -1,4 +1,4 @@
-public class GoldenBox{
+public class Box{
   //Fields
   public int xPos;
   public int yPos;
@@ -7,7 +7,7 @@ public class GoldenBox{
   public int height;
 
   //Constructor
-  public GoldenBox(int newX, int newY, int newWidth, int newHeight){
+  public Box(int newX, int newY, int newWidth, int newHeight){
     xPos = newX;
     yPos = newY;
 
@@ -18,4 +18,6 @@ public class GoldenBox{
   public int[] getBox(){
     return new int[]{xPos, yPos, width, height};
   }
+
+  
 }

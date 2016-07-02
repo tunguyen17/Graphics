@@ -26,10 +26,10 @@ public class World extends JPanel{
 
   public PathArray path;
 
-  public GoldenBox box;
+  public Box[] box;
 
   //constructor
-  public World(int newWidth, int newHeight, Robot newRobot, Sensor[] newSensor, PathArray newXPath, PathArray newYPath){
+  public World(int newWidth, int newHeight, Robot newRobot, Sensor[] newSensor, PathArray newXPath, PathArray newYPath, Box[] newBox){
     super(); //Call the constructor of JPanel
 
     width = newWidth;
@@ -43,6 +43,8 @@ public class World extends JPanel{
 
     xPath = newXPath;
     yPath = newYPath;
+
+    box = newBox;
 
   }
 
@@ -60,6 +62,10 @@ public class World extends JPanel{
     g2.setStroke(new BasicStroke(2)); //Border-thickness = 2px
     g2.drawRect(15, 15, width, height);
 
+    //drawBox
+    for(int i = 0; i< box.length; i++){
+      g2.drawRect(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
+    }
     //Robot Stuff
     g2.setColor(Color.GREEN);
     g2.fillOval(robot.getX()-5, robot.getY()-5, 10, 10);
@@ -70,7 +76,7 @@ public class World extends JPanel{
 
     //sensor
     for(int i = 0; i<5; i++){
-      if(sensor[i].detectBorder()==1){
+      if(sensor[i].detectBorder()==1 || sensor[i].detectBox()==1){
         g2.setColor(Color.RED);
       } else{g2.setColor(Color.BLUE);}
 
