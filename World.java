@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 
 public class World extends JPanel{
   //Fields
+  public int width;
+  public int height;
 
   //ROBOT position
   public Robot robot;
@@ -27,8 +29,11 @@ public class World extends JPanel{
   public GoldenBox box;
 
   //constructor
-  public World(Robot newRobot, Sensor[] newSensor, PathArray newXPath, PathArray newYPath){
+  public World(int newWidth, int newHeight, Robot newRobot, Sensor[] newSensor, PathArray newXPath, PathArray newYPath){
     super(); //Call the constructor of JPanel
+
+    width = newWidth;
+    height = newHeight;
 
     robot = newRobot;
     sensor = newSensor;
@@ -45,7 +50,7 @@ public class World extends JPanel{
   @Override
   public void paintComponent(Graphics g){
     //super.paintComponent(g);
-    if(robot.borderCollision()) {super.paintComponent(g);} //Wipe the paint board
+    super.paintComponent(g); //Wipe the paint board
 
     Graphics2D g2 = (Graphics2D) g;
 
@@ -53,7 +58,7 @@ public class World extends JPanel{
 
     //Border
     g2.setStroke(new BasicStroke(2)); //Border-thickness = 2px
-    g2.drawRect(10, 10, 480, 480);
+    g2.drawRect(15, 15, width, height);
 
     //Robot Stuff
     g2.setColor(Color.GREEN);

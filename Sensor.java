@@ -7,15 +7,15 @@ public class Sensor{
   int maxDistance = 50;
   int sensorBar;
 
-  int num;
+  Tester tester;
 
   //constructor
   //newrelativeHeading with respect to the robot
-  public Sensor(Robot newRobot, double newrelativeHeading, int newNumber){
-    num = newNumber;
+  public Sensor(Robot newRobot, double newrelativeHeading, Tester newTester){
     robot = newRobot;
     sensorBar = 0;
     relativeHeading = newrelativeHeading;
+    tester = newTester;
   }
 
   //Getter
@@ -29,16 +29,9 @@ public class Sensor{
 
   public int detectBorder(){
 
-    if( getEndpointX() < 15 || getEndpointX() > 475 ){
-      sensorBar = 1;
-    } else if ( getEndpointY() < 15 || getEndpointY() > 475 ){
+    if( tester.borderCollision( getEndpointX(), getEndpointY() ) ){
       sensorBar = 1;
     } else{sensorBar = 0;}
-
-    if(sensorBar==1){
-      //System.out.println("Border Detected" + num);
-    }
-
     return sensorBar;
   }
 

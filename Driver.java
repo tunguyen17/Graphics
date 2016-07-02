@@ -30,11 +30,13 @@ public class Driver{
 
   public int counter = 0;
 
-  //Constructor
-  public Driver(Robot newRobot, Sensor[] newSensorList){
-    robot = newRobot;
+  public Tester tester;
 
+  //Constructor
+  public Driver(Robot newRobot, Sensor[] newSensorList, Tester newTester){
+    robot = newRobot;
     sensorList = newSensorList;
+    tester = newTester;
 
     sensorCluster = new int[sensorList.length];
 
@@ -74,7 +76,7 @@ public class Driver{
 
     drive(action);
 
-    if(robot.borderCollision()){
+    if(tester.borderCollision()){
       reward = -30;
 
       //Reset State
@@ -83,7 +85,7 @@ public class Driver{
       counter = 0;
 
       System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
-      robot.setPos(robot.getIntX(), robot.getIntY());
+      robot.reset();
       robot.setHeading(2*Math.PI*Math.random());
 
       iteration++;
@@ -94,7 +96,7 @@ public class Driver{
       reward = 30;
       System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
     }else {
-      reward = -30;
+      //reward = -30;
       //System.out.println("Robot traped " + reward + " -- ");
     }
 
