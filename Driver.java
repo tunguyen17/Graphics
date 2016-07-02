@@ -28,11 +28,15 @@ public class Driver{
 
   public int iteration=0;
 
-  //Constructor
-  public Driver(Robot newRobot, Sensor[] newSensorList){
-    robot = newRobot;
+  public int counter = 0;
 
+  public Tester tester;
+
+  //Constructor
+  public Driver(Robot newRobot, Sensor[] newSensorList, Tester newTester){
+    robot = newRobot;
     sensorList = newSensorList;
+    tester = newTester;
 
     sensorCluster = new int[sensorList.length];
 
@@ -72,29 +76,34 @@ public class Driver{
 
     drive(action);
 
-    if(robot.borderCollision()){
-      reward = -100;
+    if(tester.borderCollision()){
+      reward = -30;
 
       //Reset State
       prevState = 0;
       currState = 0;
+      counter = 0;
 
       System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
-      robot.setPos(robot.getIntX(), robot.getIntY());
+      robot.reset();
       robot.setHeading(2*Math.PI*Math.random());
 
       iteration++;
       System.out.println("-------- ITERATION " + iteration);
 
     } else if( currState == 0 && prevState != 0){
-      reward = 50;
-      System.out.println(ANSI_CYAN + "Robot escaped " + reward + ANSI_RESET);
-    }else {reward = -3;}
+      counter++;
+      reward = 30;
+      System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
+    }else {
+      //reward = -30;
+      //System.out.println("Robot traped " + reward + " -- ");
+    }
 
 
 
     // newQ += learnging rate * (reward + gamma.maxCurrentQ(currentState, currentAction) - oldQ)
-    prevQ[prevAction] += 0.1 * (reward + 0.3*currQ[action] - prevQ[prevAction]);
+    prevQ[prevAction] += 0.3 * (reward + 0.3*currQ[action] - prevQ[prevAction]);
 
     //System.out.print(currQ[0]+"  ");
     //System.out.print(currQ[1]+"  ");
@@ -104,7 +113,7 @@ public class Driver{
     qMat[currState] = currQ;
     prevQ = currQ;
 
-    qMat[0] =new double[] {0, 0, 0};
+    //qMat[0] =new double[] {0, 0, 0};
 
   }
 
@@ -139,7 +148,7 @@ public class Driver{
       if(array[0] < array[1]){ i = 1; }
       if(array[i] < array[2]){i = 2; }
       //Exploration
-      if(Math.random() <0.05 && iteration < 50){
+      if(Math.random() <0.05 && iteration < 30){
         i = (int) (3*Math.random());
         System.out.println("________DoRA Explora____________________");
       }
