@@ -4,10 +4,14 @@
 //package graphics;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.geom.GeneralPath;
+
+import java.awt.Image;
+import java.awt.image.BufferedImage; //For detecting color
 
 import javax.swing.JPanel;
 
@@ -28,6 +32,10 @@ public class World extends JPanel{
 
   public Box[] box;
 
+  BufferedImage img;
+
+  Graphics2D g2;
+
   //constructor
   public World(int newWidth, int newHeight, Robot newRobot, Sensor[] newSensor, PathArray newXPath, PathArray newYPath, Box[] newBox){
     super(); //Call the constructor of JPanel
@@ -46,17 +54,17 @@ public class World extends JPanel{
 
     box = newBox;
 
+    img = new BufferedImage(2*width, 2*height, BufferedImage.TYPE_INT_RGB);
+    g2 = (Graphics2D) (img.getGraphics());
   }
 
-  //OVERIDE THE PAINT COMPONENT
   @Override
-  public void paintComponent(Graphics g){
-    //super.paintComponent(g);
-    super.paintComponent(g); //Wipe the paint board
+  public void paint(Graphics g){
+    createImage();
+    g.drawImage(img, 0, 0, this);
+  }
 
-    Graphics2D g2 = (Graphics2D) g;
-
-
+  public void createImage(){
 
     //Border
     g2.setStroke(new BasicStroke(2)); //Border-thickness = 2px

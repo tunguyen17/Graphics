@@ -46,8 +46,8 @@ public class Runner{
     while(true){
       Thread.sleep(20);
       for(int i = 0; i<5; i++){yoda[i].detectBorder();}
-      nancy.learn();
-      prez.move();
+      //nancy.learn();
+      //prez.move();
 
       //if(tester.borderCollision()){prez.reset();}
       earth.repaint();

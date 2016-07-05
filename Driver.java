@@ -79,10 +79,7 @@ public class Driver{
       counter++;
       reward = 10;
       System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
-    }else if (action == 2) {
-      reward = 10;
-      System.out.println("Robot is going straight");
-    } else reward=0;
+    }else reward=0;
 
 
 
