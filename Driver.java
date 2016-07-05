@@ -56,7 +56,8 @@ public class Driver{
 
     //Save old action and update new action
     prevAction = action;
-    action = max(currQ);
+    if(currState != 0) action = max(currQ);
+    else action = (int) (5*Math.random());
 
     drive(action);
 
@@ -78,9 +79,9 @@ public class Driver{
       counter++;
       reward = 10;
       System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
-    }else if (currState == 0) {
-      reward = -3;
-      //System.out.println("Robot traped " + reward + " -- ");
+    }else if (action == 2) {
+      reward = 10;
+      System.out.println("Robot is going straight");
     } else reward=0;
 
 
@@ -95,7 +96,7 @@ public class Driver{
     //update Q-matrix
     qMat[prevState] = prevQ;
     prevQ = currQ;
-    //qMat[0] =new double[] {0, 0, 0};
+    qMat[0] =new double[] {0, 0, 0, 0, 0};
 
   }
 
@@ -144,7 +145,7 @@ public int update(){
 
     //Exploration
     if(Math.random() <0.05 && iteration < 30){
-      max = (int) (3*Math.random());
+      max = (int) (5*Math.random());
       System.out.println("________DoRA Explora____________________");
     } else {
       //expliotation
