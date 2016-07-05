@@ -14,7 +14,7 @@ public class Runner{
     Sensor[] yoda = new Sensor[15];
     Robot prez = new Robot(200, 200);
 
-    World earth = new World(500, 500, prez, yoda, prez.getXPath(), prez.getYPath(), box);
+    World earth = new World(1000, 500, prez, yoda, prez.getXPath(), prez.getYPath(), box);
     Container window = new Container(earth);
     MyKeyListener logi = new MyKeyListener(prez);
     earth.addKeyListener(logi);
