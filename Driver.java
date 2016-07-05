@@ -50,7 +50,7 @@ public class Driver{
   //methods
 
   public void learn(){
-    System.out.println(update());
+    //System.out.println(update());
     currQ = qMat[update()];
 
 
