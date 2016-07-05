@@ -13,7 +13,7 @@ public class Container extends JFrame{
     super(); //Call the constructor of JFrame
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     add(world, BorderLayout.CENTER);
-    setSize(world.width + 190, world.height + 190);
+    setSize(world.width + 200, world.height + 200);
     setVisible(true);
   }
 }

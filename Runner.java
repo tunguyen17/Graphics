@@ -7,11 +7,11 @@ public class Runner{
   public static void main(String[] args) throws InterruptedException{
     //Box
     Box[] box = new Box[3];
-    box[0] = new Box(100, 50, 100, 100);
+    box[0] = new Box(100, 100, 100, 100);
     box[1] = new Box(200, 500, 100, 50);
     box[2] = new Box(500, 200, 200,100);
 
-    Sensor[] yoda = new Sensor[15];
+    Sensor[] yoda = new Sensor[5];
     Robot prez = new Robot(500, 500);
 
     World earth = new World(1000, 500, prez, yoda, prez.getXPath(), prez.getYPath(), box);
@@ -21,23 +21,13 @@ public class Runner{
 
     Tester tester = new Tester(earth, prez, box);
 
-    yoda[0] = new Sensor(prez, -Math.PI/2, tester, 75);
-    yoda[1] = new Sensor(prez, -Math.PI/4, tester, 75);
-    yoda[2] = new Sensor(prez, 0, tester, 75);
-    yoda[3] = new Sensor(prez, Math.PI/4, tester, 75);
-    yoda[4] = new Sensor(prez, Math.PI/2, tester, 75);
+    earth.setTester(tester);
 
-    yoda[5] = new Sensor(prez, -Math.PI/2, tester, 50);
-    yoda[6] = new Sensor(prez, -Math.PI/4, tester, 50);
-    yoda[7] = new Sensor(prez, 0, tester, 50);
-    yoda[8] = new Sensor(prez, Math.PI/4, tester, 50);
-    yoda[9] = new Sensor(prez, Math.PI/2, tester, 50);
-
-    yoda[10] = new Sensor(prez, -Math.PI/2, tester, 25);
-    yoda[11] = new Sensor(prez, -Math.PI/4, tester, 25);
-    yoda[12] = new Sensor(prez, 0, tester, 25);
-    yoda[13] = new Sensor(prez, Math.PI/4, tester, 25);
-    yoda[14] = new Sensor(prez, Math.PI/2, tester, 25);
+    yoda[0] = new Sensor(prez, -Math.PI/2, tester);
+    yoda[1] = new Sensor(prez, -Math.PI/4, tester);
+    yoda[2] = new Sensor(prez, 0, tester);
+    yoda[3] = new Sensor(prez, Math.PI/4, tester);
+    yoda[4] = new Sensor(prez, Math.PI/2, tester);
 
     Driver nancy = new Driver(prez, yoda, tester);
 
@@ -45,7 +35,6 @@ public class Runner{
     //Repaint things
     while(true){
       Thread.sleep(20);
-
       //for(int i = 0; i<5; i++){yoda[i].detect();}
 
       //nancy.learn();

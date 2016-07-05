@@ -61,7 +61,7 @@ public class Driver{
 
     drive(action);
 
-    if( false ){
+    if( tester.robotCollision() ){
       reward = -30;
 
       //Reset State

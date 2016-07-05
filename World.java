@@ -36,6 +36,8 @@ public class World extends JPanel{
 
   Graphics2D g2;
 
+  Tester tester;
+
   //constructor
   public World(int newWidth, int newHeight, Robot newRobot, Sensor[] newSensor, PathArray newXPath, PathArray newYPath, Box[] newBox){
     super(); //Call the constructor of JPanel
@@ -58,6 +60,9 @@ public class World extends JPanel{
     g2 = (Graphics2D) (img.getGraphics());
   }
 
+  //Setter
+  public void setTester(Tester newTester) {tester = newTester;}
+
   //Getter
   public BufferedImage getImg(){ return img; }
 
@@ -73,15 +78,16 @@ public class World extends JPanel{
     //Border
     g2.setColor(Color.YELLOW);
     g2.setStroke(new BasicStroke(2));
-    g2.fillRect(95,95,width+10,height+10);
+    g2.fillRect(140,140,width+20,height+20);
     g2.setColor(Color.WHITE);
-    g2.fillRect(100, 100, width, height);
+    g2.fillRect(150, 150, width, height);
 
     //drawBox
     g2.setColor(Color.ORANGE);
     for(int i = 0; i< box.length; i++){
       g2.fillRect(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
     }
+    tester.robotCollision();
     //Robot Stuff
     g2.setColor(Color.GREEN);
     g2.fillOval(robot.getX()-5, robot.getY()-5, 10, 10);
