@@ -4,18 +4,19 @@ public class Sensor{
 
   double relativeHeading;
 
-  int maxDistance = 50;
+  int maxDistance;
   int sensorBar;
 
   Tester tester;
 
   //constructor
   //newrelativeHeading with respect to the robot
-  public Sensor(Robot newRobot, double newrelativeHeading, Tester newTester){
+  public Sensor(Robot newRobot, double newrelativeHeading, Tester newTester, int distance){
     robot = newRobot;
     sensorBar = 0;
     relativeHeading = newrelativeHeading;
     tester = newTester;
+    maxDistance = distance;
   }
 
   //Getter
@@ -39,6 +40,13 @@ public class Sensor{
     if( tester.boxCollusion( getEndpointX(), getEndpointY() ) ){
       sensorBar = 1;
     } else{sensorBar = 0;}
+    return sensorBar;
+  }
+
+  public int detect(){
+    if( tester.borderCollision( getEndpointX(), getEndpointY() ) || tester.boxCollusion( getEndpointX(), getEndpointY() ) ){
+        sensorBar = 1;
+    } else {sensorBar = 0;}
     return sensorBar;
   }
 

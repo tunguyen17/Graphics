@@ -40,7 +40,7 @@ public class Driver{
 
     sensorCluster = new int[sensorList.length];
 
-    qMat = new double[32][5];
+    qMat = new double[32768][5];
 
     currQ = new double[3];
     prevQ = new double[3];
@@ -50,7 +50,7 @@ public class Driver{
   //methods
 
   public void learn(){
-
+    System.out.println(update());
     currQ = qMat[update()];
 
 
@@ -76,10 +76,10 @@ public class Driver{
 
     } else if( currState == 0 && prevState != 0){
       counter++;
-      reward = 3;
+      reward = 10;
       System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
     }else {
-      reward = 3;
+      //reward = 3;
       //System.out.println("Robot traped " + reward + " -- ");
     }
 
@@ -107,10 +107,8 @@ public int update(){
   prevState = currState;
   currState = 0;
 
-  for(int i = 0; i<sensorList.length; i++){
-    sensorCluster[i] = sensorList[i].detectBorder();
-    currState += Math.pow(2, i)*sensorCluster[i];
-    //System.out.print(sensorCluster[i] + "  ");
+  for(int i = 0; i< sensorList.length; i++){
+    currState += sensorList[i].detect()*Math.pow(2,i);
   }
 
   return currState;

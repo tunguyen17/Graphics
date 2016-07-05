@@ -75,13 +75,13 @@ public class World extends JPanel{
     g2.drawLine(robot.getX(), robot.getY(), (int) (robot.getX() + 10*Math.cos(robot.getHeading())), (int) (robot.getY() + 10*Math.sin(robot.getHeading())));
 
     //sensor
-    for(int i = 0; i<5; i++){
+    for(int i = 0; i<sensor.length; i++){
       if(sensor[i].detectBorder()==1 || sensor[i].detectBox()==1){
         g2.setColor(Color.RED);
       } else{g2.setColor(Color.BLUE);}
 
       g2.setStroke(new BasicStroke(1));
-      g2.drawLine(robot.getX(), robot.getY(), sensor[i].getEndpointX(), sensor[i].getEndpointY());
+      g2.fillOval(sensor[i].getEndpointX()-1, sensor[i].getEndpointY()-1, 3, 3);
     }
     //Path
     for(int i = 0; i < path.getLength(); i++){
