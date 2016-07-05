@@ -58,6 +58,9 @@ public class World extends JPanel{
     g2 = (Graphics2D) (img.getGraphics());
   }
 
+  //Getter
+  public BufferedImage getImg(){ return img; }
+
   @Override
   public void paint(Graphics g){
     createImage();
@@ -65,14 +68,19 @@ public class World extends JPanel{
   }
 
   public void createImage(){
+    g2.clearRect(0, 0, 2*width, 2*height);
 
     //Border
-    g2.setStroke(new BasicStroke(2)); //Border-thickness = 2px
-    g2.drawRect(15, 15, width, height);
+    g2.setColor(Color.YELLOW);
+    g2.setStroke(new BasicStroke(2));
+    g2.fillRect(95,95,width+10,height+10);
+    g2.setColor(Color.WHITE);
+    g2.fillRect(100, 100, width, height);
 
     //drawBox
+    g2.setColor(Color.ORANGE);
     for(int i = 0; i< box.length; i++){
-      g2.drawRect(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
+      g2.fillRect(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
     }
     //Robot Stuff
     g2.setColor(Color.GREEN);
@@ -84,13 +92,15 @@ public class World extends JPanel{
 
     //sensor
     for(int i = 0; i<sensor.length; i++){
-      if(sensor[i].detectBorder()==1 || sensor[i].detectBox()==1){
+      if(sensor[i].detect()==1){
         g2.setColor(Color.RED);
       } else{g2.setColor(Color.BLUE);}
 
       g2.setStroke(new BasicStroke(1));
       g2.fillOval(sensor[i].getEndpointX()-1, sensor[i].getEndpointY()-1, 3, 3);
     }
+
+
     //Path
     for(int i = 0; i < path.getLength(); i++){
       g2.setColor(new Color(255 - 4*i,255 - 2*i, 255 -  5*i));

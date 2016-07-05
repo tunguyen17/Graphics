@@ -7,12 +7,12 @@ public class Runner{
   public static void main(String[] args) throws InterruptedException{
     //Box
     Box[] box = new Box[3];
-    box[0] = new Box(10, 20, 100, 100);
+    box[0] = new Box(100, 50, 100, 100);
     box[1] = new Box(200, 500, 100, 50);
     box[2] = new Box(500, 200, 200,100);
 
     Sensor[] yoda = new Sensor[15];
-    Robot prez = new Robot(200, 200);
+    Robot prez = new Robot(500, 500);
 
     World earth = new World(1000, 500, prez, yoda, prez.getXPath(), prez.getYPath(), box);
     Container window = new Container(earth);
@@ -45,7 +45,9 @@ public class Runner{
     //Repaint things
     while(true){
       Thread.sleep(20);
-      for(int i = 0; i<5; i++){yoda[i].detectBorder();}
+
+      //for(int i = 0; i<5; i++){yoda[i].detect();}
+
       //nancy.learn();
       //prez.move();
 

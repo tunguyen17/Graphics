@@ -61,7 +61,7 @@ public class Driver{
 
     drive(action);
 
-    if( tester.borderCollision() || tester.boxCollision() ){
+    if( false ){
       reward = -30;
 
       //Reset State

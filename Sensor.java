@@ -28,23 +28,8 @@ public class Sensor{
     return (int) (robot.getY() + maxDistance*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
   }
 
-  public int detectBorder(){
-
-    if( tester.borderCollision( getEndpointX(), getEndpointY() ) ){
-      sensorBar = 1;
-    } else{sensorBar = 0;}
-    return sensorBar;
-  }
-
-  public int detectBox(){
-    if( tester.boxCollusion( getEndpointX(), getEndpointY() ) ){
-      sensorBar = 1;
-    } else{sensorBar = 0;}
-    return sensorBar;
-  }
-
   public int detect(){
-    if( tester.borderCollision( getEndpointX(), getEndpointY() ) || tester.boxCollusion( getEndpointX(), getEndpointY() ) ){
+    if( tester.sensorTest( getEndpointX(), getEndpointY() )){
         sensorBar = 1;
     } else {sensorBar = 0;}
     return sensorBar;
