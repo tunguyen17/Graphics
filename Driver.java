@@ -42,8 +42,8 @@ public class Driver{
 
     qMat = new double[32768][5];
 
-    currQ = new double[3];
-    prevQ = new double[3];
+    currQ = new double[5];
+    prevQ = new double[5];
 
   }
 
@@ -78,10 +78,10 @@ public class Driver{
       counter++;
       reward = 10;
       System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
-    }else {
-      //reward = 3;
+    }else if (currState == 0) {
+      reward = -3;
       //System.out.println("Robot traped " + reward + " -- ");
-    }
+    } else reward=0;
 
 
 
@@ -93,9 +93,8 @@ public class Driver{
     //System.out.println(currQ[2]+"  ");
 
     //update Q-matrix
-    qMat[currState] = currQ;
+    qMat[prevState] = prevQ;
     prevQ = currQ;
-
     //qMat[0] =new double[] {0, 0, 0};
 
   }

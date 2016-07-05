@@ -8,8 +8,8 @@ public class Runner{
     //Box
     Box[] box = new Box[3];
     box[0] = new Box(10, 20, 100, 100);
-    box[1] = new Box(150, 20, 100, 100);
-    box[2] = new Box(400, 200, 100, 200);
+    box[1] = new Box(200, 500, 100, 50);
+    box[2] = new Box(500, 200, 200,100);
 
     Sensor[] yoda = new Sensor[15];
     Robot prez = new Robot(200, 200);
