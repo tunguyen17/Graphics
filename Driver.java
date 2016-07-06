@@ -32,8 +32,10 @@ public class Driver{
 
   public Tester tester;
 
+  public World world;
   //Constructor
-  public Driver(Robot newRobot, Sensor[] newSensorList, Tester newTester){
+  public Driver(World newWorld, Robot newRobot, Sensor[] newSensorList, Tester newTester){
+    world = newWorld;
     robot = newRobot;
     sensorList = newSensorList;
     tester = newTester;
@@ -50,7 +52,15 @@ public class Driver{
   //methods
 
   public void learn(){
-    //System.out.println(update());
+
+    /*
+    System.out.println("------");
+    for(int i = 0; i<5; i ++){
+      System.out.println("Sensor " + i + " " + world.sensorReadings[i][0] + " ---- " + world.sensorReadings[i][1]);
+    }
+    System.out.println("---------");
+    */
+
     currQ = qMat[update()];
 
 
@@ -94,7 +104,6 @@ public class Driver{
     qMat[prevState] = prevQ;
     prevQ = currQ;
     qMat[0] =new double[] {0, 0, 0, 0, 0};
-
   }
 
   //Finding value of the current state;
@@ -114,19 +123,14 @@ public int update(){
   public void drive(int input){
     switch(input){
 
-      case 0: robot.turnLeft2();
+      case 0: robot.turnLeft();
               break;
 
-      case 1: robot.turnLeft();
+      case 1: break;
+
+      case 2: robot.turnRight();
               break;
 
-      case 2: break;
-
-      case 3: robot.turnRight();
-              break;
-
-      case 4: robot.turnRight2();
-              break;
       default: break;
 
     }
@@ -136,8 +140,6 @@ public int update(){
   //Methods for finding max qValue
   public int max(double[] array){
 
-    int max0;
-    int max1;
     int max;
 
     //Exploration
@@ -146,10 +148,8 @@ public int update(){
       System.out.println("________DoRA Explora____________________");
     } else {
       //expliotation
-      if(array[0] > array[1]) max0 = 0; else max0 = 1;
-      if(array[2] > array[3]) max1 = 2; else max1 = 3;
-      if(array[max0] > array[max1]) max = max0; else max = max1;
-      if(array[max] < array[4]) max = 4;
+      if(array[0] > array[1]) max = 0; else max = 1;
+      if(array[max] < array[2]) max = 2;
     }
   return max;
   }

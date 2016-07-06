@@ -38,6 +38,8 @@ public class World extends JPanel{
 
   Tester tester;
 
+  public int[][] sensorReadings;
+
   //constructor
   public World(int newWidth, int newHeight, Robot newRobot, Sensor[] newSensor, PathArray newXPath, PathArray newYPath, Box[] newBox){
     super(); //Call the constructor of JPanel
@@ -58,6 +60,8 @@ public class World extends JPanel{
 
     img = new BufferedImage(2*width, 2*height, BufferedImage.TYPE_INT_RGB);
     g2 = (Graphics2D) (img.getGraphics());
+
+    sensorReadings = new int[5][2];
   }
 
   //Setter
@@ -98,14 +102,13 @@ public class World extends JPanel{
 
     //sensor
     for(int i = 0; i<sensor.length; i++){
-      if(sensor[i].detect()[0]==1){
+      sensorReadings[i] = sensor[i].detect();
+      if(sensorReadings[i][0]==1){
         g2.setColor(Color.RED);
       } else{g2.setColor(Color.BLUE);}
-
       g2.setStroke(new BasicStroke(1));
       g2.fillOval(sensor[i].getEndpointX()-1, sensor[i].getEndpointY()-1, 3, 3);
     }
-
 
     //Path
     for(int i = 0; i < path.getLength(); i++){

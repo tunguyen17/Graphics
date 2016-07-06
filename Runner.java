@@ -29,16 +29,14 @@ public class Runner{
     yoda[3] = new Sensor(prez, Math.PI/4, tester);
     yoda[4] = new Sensor(prez, Math.PI/2, tester);
 
-    Driver nancy = new Driver(prez, yoda, tester);
+    Driver nancy = new Driver(earth, prez, yoda, tester);
 
     earth.requestFocusInWindow();
     //Repaint things
     while(true){
-      Thread.sleep(20);
-      //for(int i = 0; i<5; i++){yoda[i].detect();}
-
-      nancy.learn();
-      prez.move();
+      Thread.sleep(10);
+      //nancy.learn();
+      //prez.move();
 
       //if(tester.robotCollision()){prez.reset();}
       earth.repaint();

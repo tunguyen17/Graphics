@@ -34,20 +34,21 @@ public class Sensor{
 
   //If distance is 5, the robot is the closest to the wall
   public int[] detect(){
-    if( tester.sensorTest( getEndpointX(), getEndpointY() )){
-        int xPos2 = getEndpointX();
-        int yPos2 = getEndpointY();
-        distance = maxDistance;
+    distance = maxDistance;
+    sensorBar = 0;
+    int xPos2 = getEndpointX();
+    int yPos2 = getEndpointY();
+
+    for(int i = 0; i < 100; i++){
+      xPos2 = (int) (robot.getX() + (maxDistance-i)*Math.cos(relativeHeading+robot.getHeading()) + 0.5);
+      yPos2 = (int) (robot.getY() + (maxDistance-i)*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
+      if(tester.sensorTest(xPos2, yPos2)){
+        distance = 100 - i;
         sensorBar = 1;
-        for(int i = 0; i < 100; i++){
-          xPos2 = (int) (robot.getX() + (maxDistance-i)*Math.cos(relativeHeading+robot.getHeading()) + 0.5);
-          yPos2 = (int) (robot.getY() + (maxDistance-i)*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
-          if(!tester.sensorTest(xPos2, yPos2)){
-            distance = 100 - i;
-            break;
-          }
-        }
-    } else {sensorBar = 0;}
+        break;
+      }
+    }
+
     return new int[]{sensorBar, distance};
   }
 
