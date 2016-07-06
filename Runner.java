@@ -37,10 +37,10 @@ public class Runner{
       Thread.sleep(20);
       //for(int i = 0; i<5; i++){yoda[i].detect();}
 
-      //nancy.learn();
-      //prez.move();
+      nancy.learn();
+      prez.move();
 
-      //if(tester.borderCollision()){prez.reset();}
+      //if(tester.robotCollision()){prez.reset();}
       earth.repaint();
     }
   }

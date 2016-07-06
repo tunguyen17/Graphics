@@ -98,7 +98,7 @@ public class World extends JPanel{
 
     //sensor
     for(int i = 0; i<sensor.length; i++){
-      if(sensor[i].detect()==1){
+      if(sensor[i].detect()[0]==1){
         g2.setColor(Color.RED);
       } else{g2.setColor(Color.BLUE);}
 

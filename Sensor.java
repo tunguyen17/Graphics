@@ -32,7 +32,8 @@ public class Sensor{
     return (int) (robot.getY() + maxDistance*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
   }
 
-  public int detect(){
+  //If distance is 5, the robot is the closest to the wall
+  public int[] detect(){
     if( tester.sensorTest( getEndpointX(), getEndpointY() )){
         int xPos2 = getEndpointX();
         int yPos2 = getEndpointY();
@@ -46,10 +47,8 @@ public class Sensor{
             break;
           }
         }
-        System.out.println(distance);
-        System.out.println("-----");
     } else {sensorBar = 0;}
-    return sensorBar;
+    return new int[]{sensorBar, distance};
   }
 
 }

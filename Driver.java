@@ -105,7 +105,7 @@ public int update(){
   currState = 0;
 
   for(int i = 0; i< sensorList.length; i++){
-    currState += sensorList[i].detect()*Math.pow(2,i);
+    currState += sensorList[i].detect()[0]*Math.pow(2,i);
   }
 
   return currState;

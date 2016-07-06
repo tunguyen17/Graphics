@@ -9,6 +9,7 @@ public class Tester{
   public Box[] box;
 
   public BufferedImage img;
+
   //constructor
   public Tester(World world, Robot newRobot, Box[] newBox){
     robot = newRobot;
@@ -19,10 +20,10 @@ public class Tester{
 
 
   public boolean robotCollision(){
-    boolean collided = false;
     if(img.getRGB(robot.xPos, robot.yPos) ==-14336 || img.getRGB(robot.xPos, robot.yPos) == -16777216){
-      collided = true;}
-    return collided;
+      robot.collided = true;
+    }
+    return robot.collided;
   }
 
   public boolean sensorTest(int x, int y){

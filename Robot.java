@@ -16,6 +16,8 @@ public class Robot{
 
   public double heading = 0; //Initial heading 0
 
+  public boolean collided;
+
   //Constructor
   public Robot(int newX,int newY){
     //Initialize the position of the robot
@@ -27,6 +29,8 @@ public class Robot{
 
     xPath = new PathArray(xPos);
     yPath = new PathArray(xPos);
+
+    collided = false;
   }
 
   //Getter
@@ -80,5 +84,6 @@ public class Robot{
     xPos = xIntPos;
     yPos = yIntPos;
     setHeading(2*Math.PI*Math.random());
+    collided = false;
   }
 }
