@@ -35,8 +35,8 @@ public class Runner{
     //Repaint things
     while(true){
       Thread.sleep(10);
-      //nancy.learn();
-      //prez.move();
+      nancy.learn();
+      prez.move();
 
       //if(tester.robotCollision()){prez.reset();}
       earth.repaint();
