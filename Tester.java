@@ -19,6 +19,7 @@ public class Tester{
   }
 
 
+  //for the rewards
   public boolean robotCollision(){
     if(img.getRGB(robot.xPos, robot.yPos) ==-14336 || img.getRGB(robot.xPos, robot.yPos) == -16777216){
       robot.collided = true;

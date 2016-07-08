@@ -13,15 +13,9 @@ public class Driver{
   public int[] sensorCluster;
   public Sensor[] sensorList;
 
-  public double[][] qMat;
-
   public int prevState = 0;
   public int currState = 0; //Default value is 0
 
-  public double[] prevQ;
-  public double[] currQ;
-
-  public int prevAction =0;
   public int action = 0;
 
   public double reward;
@@ -42,35 +36,15 @@ public class Driver{
 
     sensorCluster = new int[sensorList.length];
 
-    qMat = new double[32768][5];
-
-    currQ = new double[5];
-    prevQ = new double[5];
-
   }
 
   //methods
 
   public void learn(){
 
-    /*
-    System.out.println("------");
-    for(int i = 0; i<5; i ++){
-      System.out.println("Sensor " + i + " " + world.sensorReadings[i][0] + " ---- " + world.sensorReadings[i][1]);
-    }
-    System.out.println("---------");
-    */
+    //drive(action);
 
-    currQ = qMat[update()];
-
-
-    //Save old action and update new action
-    prevAction = action;
-    if(currState != 0) action = max(currQ);
-    else action = (int) (5*Math.random());
-
-    drive(action);
-
+    //GET THE REWARDS FOR THE ACTION
     if( tester.robotCollision() ){
       reward = -30;
 
@@ -91,33 +65,18 @@ public class Driver{
       System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
     }else reward=0;
 
-
-
-    // newQ += learnging rate * (reward + gamma.maxCurrentQ(currentState, currentAction) - oldQ)
-    prevQ[prevAction] += 0.3 * (reward + 0.3*currQ[action] - prevQ[prevAction]);
-
-    //System.out.print(currQ[0]+"  ");
-    //System.out.print(currQ[1]+"  ");
-    //System.out.println(currQ[2]+"  ");
-
-    //update Q-matrix
-    qMat[prevState] = prevQ;
-    prevQ = currQ;
-    qMat[0] =new double[] {0, 0, 0, 0, 0};
   }
 
   //Finding value of the current state;
-public int update(){
-
-  //Updte previousState and reset currentState
-  prevState = currState;
-  currState = 0;
+public double[][] updateSensor(){
+  double[][] s = new double[1][5];
 
   for(int i = 0; i< sensorList.length; i++){
-    currState += sensorList[i].detect()[0]*Math.pow(2,i);
+    s[0][i] = sensorList[i].getDistance();
+    System.out.print(s[0][i] + "  ");
   }
-
-  return currState;
+  System.out.println();
+  return s;
 }
 
   public void drive(int input){

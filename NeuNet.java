@@ -31,10 +31,13 @@ public class NeuNet{
   public double[][] q; //1x3
   public double[][] oldQ;
 
-
+  public Driver driver;
 
   /*Constructor*/
-  public NeuNet(){
+  public NeuNet(Driver newDriver){
+
+    driver = newDriver;
+
     //Input layer
     s = new double[1][5];
 
@@ -155,14 +158,7 @@ public class NeuNet{
     return t;
   }
 
-  public double[][] max(double[][] q, double r, double gamma){
-    double[][] newQ = new double[q.length][q[0].length];
-
-    for(int i = 0; i < q.length; i++){
-      for(int j = 0; j < q[0].length; j++){
-        newQ[i][j] = q[i][j];
-      }
-    }
+  public int max(){
     int max = 0;
 
     if(q.length > 1){System.out.println("Error this function ony accept single row matrix");}
@@ -171,8 +167,7 @@ public class NeuNet{
       if(q[0][max] < q[0][2]) max = 2;
     }
 
-    newQ[0][max] = r + gamma.newQ[0][max];
-    return newQ;
+    return max;
   }
 
   //*Learning aid*//
@@ -224,12 +219,11 @@ public class NeuNet{
     z3 = mul(a2, w3);
     q = s(z3);
 
-    qTarget = max(q, r, 0.9);
   }
 
   public void back(double r){
 
-    double[][] qTarget;
+    double[][] qTarget = new double[1][3];
 
     //max(q, r, gamma)
 
@@ -245,8 +239,6 @@ public class NeuNet{
     sigma2 = hMul( mul(sigma3, transpose(w2)), sPrime(z1) );
     deltaW1 = mul(transpose(s), sigma2);
 
-    //Update oldQ;
-    oldQ = q;
 
     //Update W
     w1 = subtract(w1, sMul(0.5, deltaW1));

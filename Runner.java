@@ -31,15 +31,17 @@ public class Runner{
 
     Driver nancy = new Driver(earth, prez, yoda, tester);
 
+    NeuNet nn = new NeuNet(nancy);
     earth.requestFocusInWindow();
     //Repaint things
     while(true){
-      Thread.sleep(10);
-      nancy.learn();
-      prez.move();
+      Thread.sleep(100);
+      //nancy.updateSensor();
+      //prez.move();
 
       //if(tester.robotCollision()){prez.reset();}
       earth.repaint();
+
     }
   }
 }
