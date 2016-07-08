@@ -62,6 +62,9 @@ public class World extends JPanel{
     g2 = (Graphics2D) (img.getGraphics());
 
     sensorReadings = new int[5][2];
+
+    //Initialize neural network
+
   }
 
   //Setter
@@ -91,7 +94,9 @@ public class World extends JPanel{
     for(int i = 0; i< box.length; i++){
       g2.fillRect(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
     }
+
     tester.robotCollision();
+
     //Robot Stuff
     g2.setColor(Color.GREEN);
     g2.fillOval(robot.getX()-5, robot.getY()-5, 10, 10);
@@ -104,7 +109,7 @@ public class World extends JPanel{
     for(int i = 0; i<sensor.length; i++){
       sensorReadings[i] = sensor[i].detect();
 
-      if(sensorReadings[i][0]==1){
+    if(sensorReadings[i][0]==1){
         g2.setColor(Color.GRAY);
         g2.setStroke(new BasicStroke(1));
         g2.drawLine(robot.getX(), robot.getY(), sensor[i].getContactX(), sensor[i].getContactY());
@@ -113,7 +118,7 @@ public class World extends JPanel{
       g2.setStroke(new BasicStroke(1));
       g2.fillOval(sensor[i].getEndpointX()-1, sensor[i].getEndpointY()-1, 3, 3);
     }
-    System.out.println();
+
     //Path
     for(int i = 0; i < path.getLength(); i++){
       g2.setColor(new Color(255 - 4*i,255 - 2*i, 255 -  5*i));

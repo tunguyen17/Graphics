@@ -6,10 +6,12 @@
 public class Runner{
   public static void main(String[] args) throws InterruptedException{
     //Box
-    Box[] box = new Box[3];
+    Box[] box = new Box[5];
     box[0] = new Box(100, 100, 100, 100);
     box[1] = new Box(200, 500, 100, 50);
-    box[2] = new Box(500, 200, 200,100);
+    box[2] = new Box(500, 200, 200, 100);
+    box[3] = new Box(900, 400, 400, 200);
+    box[4] = new Box(500, 600, 400, 200);
 
     Sensor[] yoda = new Sensor[5];
     Robot prez = new Robot(500, 500);
@@ -28,17 +30,23 @@ public class Runner{
     yoda[2] = new Sensor(prez, 0, tester);
     yoda[3] = new Sensor(prez, Math.PI/4, tester);
     yoda[4] = new Sensor(prez, Math.PI/2, tester);
-
+    earth.repaint();
     Driver nancy = new Driver(earth, prez, yoda, tester);
 
-    NeuNet nn = new NeuNet(nancy);
     earth.requestFocusInWindow();
-    //Repaint things
-    while(true){
-      Thread.sleep(100);
-      //nancy.updateSensor();
-      //prez.move();
 
+    //INITIALIZE sensor + network
+    Thread.sleep(50);
+    nancy.nn.forward( nancy.updateSensor() );
+
+    nancy.learn();
+
+    while(true){
+      Thread.sleep(10);
+      nancy.learn();
+      //nancy.updateSensor();
+      prez.move();
+      //nancy.updateSensor();
       //if(tester.robotCollision()){prez.reset();}
       earth.repaint();
 

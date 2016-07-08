@@ -3,8 +3,8 @@ public class NeuNet{
 
   /*Fields*/
 
-  //Input layer
-  public double[][] s; //1x5
+  //inputs layer
+  public double[][] inputs; //1x5
 
   //W1
   public double[][] w1; //5x6
@@ -31,21 +31,11 @@ public class NeuNet{
   public double[][] q; //1x3
   public double[][] oldQ;
 
-  public Driver driver;
-
   /*Constructor*/
-  public NeuNet(Driver newDriver){
+  public NeuNet(){
 
-    driver = newDriver;
-
-    //Input layer
-    s = new double[1][5];
-
-    s[0][0] = 0.1;
-    s[0][1] = 0.2;
-    s[0][2] = 0.3;
-    s[0][3] = 0.4;
-    s[0][4] = 0.5;
+    //inputs layer
+    inputs = new double[1][5];
 
     //W1
     w1 = new double[5][6];
@@ -205,10 +195,17 @@ public class NeuNet{
   /////////////////////////**///////////////////////////////
   public void forward(double[][] sensorInput){
 
-    s = sensorInput;
+    //Backup oldQ
+    for(int i = 0; i<q.length; i++){
+      for(int j = 0; j<q[0].length; j++){
+        oldQ[i][j] = q[i][j];
+      }
+    }
+
+    inputs = sensorInput;
 
     //Hidden layer 1
-    z1 = mul(s, w1);
+    z1 = mul(inputs, w1);
     a1 = s(z1);
 
     //Hidden layer 2
@@ -221,9 +218,11 @@ public class NeuNet{
 
   }
 
-  public void back(double r){
+  public void back(double l, int index){
 
-    double[][] qTarget = new double[1][3];
+    double[][] lost = new double[1][3];
+
+    lost[0][index] = l;
 
     //max(q, r, gamma)
 
@@ -232,12 +231,12 @@ public class NeuNet{
     double[][] sigma3;
     double[][] sigma2;
 
-    sigma4 = hMul(subtract(qTarget, oldQ), sPrime(z3));
+    sigma4 = hMul(lost, sPrime(z3));
     deltaW3 = mul( transpose(a2), sigma4 );
     sigma3 = hMul( mul(sigma4, transpose(w3)), sPrime(z2));
     deltaW2 = mul(transpose(a1), sigma3);
     sigma2 = hMul( mul(sigma3, transpose(w2)), sPrime(z1) );
-    deltaW1 = mul(transpose(s), sigma2);
+    deltaW1 = mul(transpose(inputs), sigma2);
 
 
     //Update W

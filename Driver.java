@@ -20,13 +20,19 @@ public class Driver{
 
   public double reward;
 
-  public int iteration=0;
+  public int iteration = 0;
 
   public int counter = 0;
 
   public Tester tester;
 
   public World world;
+
+  //NEURAL NETWORK THINGS
+  public NeuNet nn;
+
+  public int maxQI = 1; //Max Q index
+
   //Constructor
   public Driver(World newWorld, Robot newRobot, Sensor[] newSensorList, Tester newTester){
     world = newWorld;
@@ -36,17 +42,21 @@ public class Driver{
 
     sensorCluster = new int[sensorList.length];
 
+    nn = new NeuNet();
   }
 
   //methods
 
   public void learn(){
 
-    //drive(action);
+    //nn.printMat(nn.q, "q");
+    action = nn.max(); //a
 
-    //GET THE REWARDS FOR THE ACTION
+    drive(action);
+
+    //GET THE REWARDS FOR THE ACTION || r
     if( tester.robotCollision() ){
-      reward = -30;
+      reward = -0.3;
 
       //Reset State
       prevState = 0;
@@ -58,26 +68,27 @@ public class Driver{
 
       iteration++;
       System.out.println("-------- ITERATION " + iteration);
+    }
 
-    } else if( currState == 0 && prevState != 0){
-      counter++;
-      reward = 10;
-      System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
-    }else reward=0;
+    nn.forward( updateSensor() ); //s' , oldQ is backedup
+    maxQI = nn.max(); //Q'
 
+    double l = nn.oldQ[0][maxQI] - ( reward + 0.9*nn.q[0][maxQI] );  //qTarget = Reward + gamma*Q(s', a', Theta^-)
+
+    nn.back(l, maxQI);
+
+    nn.forward(updateSensor());
   }
 
-  //Finding value of the current state;
-public double[][] updateSensor(){
-  double[][] s = new double[1][5];
+  //Finding value of the current state
+  public double[][] updateSensor(){
+    double[][] s = new double[1][5];
 
-  for(int i = 0; i< sensorList.length; i++){
-    s[0][i] = sensorList[i].getDistance();
-    System.out.print(s[0][i] + "  ");
+    for(int i = 0; i< sensorList.length; i++){
+      s[0][i] = sensorList[i].getDistance()/100.;
+    }
+    return s;
   }
-  System.out.println();
-  return s;
-}
 
   public void drive(int input){
     switch(input){
@@ -95,22 +106,5 @@ public double[][] updateSensor(){
     }
   }
 
-
-  //Methods for finding max qValue
-  public int max(double[] array){
-
-    int max;
-
-    //Exploration
-    if(Math.random() <0.05 && iteration < 30){
-      max = (int) (5*Math.random());
-      System.out.println("________DoRA Explora____________________");
-    } else {
-      //expliotation
-      if(array[0] > array[1]) max = 0; else max = 1;
-      if(array[max] < array[2]) max = 2;
-    }
-  return max;
-  }
 
 }

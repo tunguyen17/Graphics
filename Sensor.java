@@ -58,7 +58,7 @@ public class Sensor{
         break;
       }
     }
-    System.out.print(distance + "  ");
+    //System.out.print(distance + "  ");
     return new int[]{sensorBar, distance};
   }
 
