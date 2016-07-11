@@ -2,7 +2,6 @@
 * Contains the basic drawing board
 */
 //package graphics;
-
 import java.awt.Color;
 
 import java.awt.Graphics;
@@ -63,8 +62,6 @@ public class World extends JPanel{
 
     sensorReadings = new int[5][2];
 
-    //Initialize neural network
-
   }
 
   //Setter
@@ -95,13 +92,14 @@ public class World extends JPanel{
       g2.fillRect(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
     }
 
+    //Test if robot has collided
     tester.robotCollision();
 
-    //Robot Stuff
+    //Draw Robot | body
     g2.setColor(Color.GREEN);
     g2.fillOval(robot.getX()-5, robot.getY()-5, 10, 10);
 
-    //head of robot
+    //Draw Robot | Heading
     g2.setStroke(new BasicStroke(5));
     g2.drawLine(robot.getX(), robot.getY(), (int) (robot.getX() + 10*Math.cos(robot.getHeading())), (int) (robot.getY() + 10*Math.sin(robot.getHeading())));
 
@@ -109,7 +107,7 @@ public class World extends JPanel{
     for(int i = 0; i<sensor.length; i++){
       sensorReadings[i] = sensor[i].detect();
 
-    if(sensorReadings[i][0]==1){
+      if(sensorReadings[i][0]==1){
         g2.setColor(Color.GRAY);
         g2.setStroke(new BasicStroke(1));
         g2.drawLine(robot.getX(), robot.getY(), sensor[i].getContactX(), sensor[i].getContactY());
@@ -119,7 +117,7 @@ public class World extends JPanel{
       g2.fillOval(sensor[i].getEndpointX()-1, sensor[i].getEndpointY()-1, 3, 3);
     }
 
-    //Path
+    //Draw Robot's Path
     for(int i = 0; i < path.getLength(); i++){
       g2.setColor(new Color(255 - 4*i,255 - 2*i, 255 -  5*i));
       g2.fillOval(xPath.getPath()[i]-2, yPath.getPath()[i]-2, 4, 4);

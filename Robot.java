@@ -55,9 +55,9 @@ public class Robot{
   }
 
   public void turnLeft(){heading-=0.3;}
+  public void turnRight(){heading+=0.3;}
   public void turnLeft2(){heading-=0.1;}
-  public void turnRight(){heading+=0.1;}
-  public void turnRight2(){heading+=0.3;}
+  public void turnRight2(){heading+=0.1;}
   public void setHeading(double newHeading){heading = newHeading;}
 
   /* Need to test this more

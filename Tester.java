@@ -19,7 +19,7 @@ public class Tester{
   }
 
 
-  //for the rewards
+  //Detect if robot has collided with Wall
   public boolean robotCollision(){
     if(img.getRGB(robot.xPos, robot.yPos) ==-14336 || img.getRGB(robot.xPos, robot.yPos) == -16777216){
       robot.collided = true;
@@ -27,6 +27,7 @@ public class Tester{
     return robot.collided;
   }
 
+  //Test if a point is  within an obstacle or not
   public boolean sensorTest(int x, int y){
     boolean collided = false;
     //System.out.println(img.getRGB(x,y));

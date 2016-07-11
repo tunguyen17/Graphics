@@ -24,6 +24,7 @@ public class Sensor{
   }
 
   //Getter
+  //Get the x and y corrdinate of the end points of the sensor
   public int getEndpointX(){
     return (int) (robot.getX() + maxDistance*Math.cos(relativeHeading+robot.getHeading()) + 0.5);
   }
@@ -32,6 +33,7 @@ public class Sensor{
     return (int) (robot.getY() + maxDistance*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
   }
 
+  //Get the x and y corrdinate of where the sensor read the wall
   public int getContactX(){
     return (int) (robot.getX() + distance*Math.cos(relativeHeading+robot.getHeading()) + 0.5);
   }
@@ -40,9 +42,10 @@ public class Sensor{
     return (int) (robot.getY() + distance*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
   }
 
+  //Get the distance from the robot to the closest reading
   public int getDistance() {return distance;}
 
-  //If distance is 5, the robot is the closest to the wall
+  //Read the sensor, detect if there is any obstacle ahead
   public int[] detect(){
     distance = maxDistance;
     sensorBar = 0;
