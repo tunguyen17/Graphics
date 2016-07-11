@@ -39,11 +39,11 @@ public class Sensor{
     int xPos2 = getEndpointX();
     int yPos2 = getEndpointY();
 
-    for(int i = 0; i < 100; i++){
-      xPos2 = (int) (robot.getX() + (maxDistance-i)*Math.cos(relativeHeading+robot.getHeading()) + 0.5);
-      yPos2 = (int) (robot.getY() + (maxDistance-i)*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
+    for(int i = 0; i < maxDistance; i++){
+      xPos2 = (int) (robot.getX() + (i)*Math.cos(relativeHeading+robot.getHeading()) + 0.5);
+      yPos2 = (int) (robot.getY() + (i)*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
       if(tester.sensorTest(xPos2, yPos2)){
-        distance = 100 - i;
+        distance = i;
         sensorBar = 1;
         break;
       }
