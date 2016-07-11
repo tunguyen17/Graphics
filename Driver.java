@@ -66,8 +66,7 @@ public class Driver{
 
     //Save old action and update new action
     prevAction = action;
-    if(currState != 0) action = max(currQ);
-    else action = (int) (5*Math.random());
+    action = max(currQ);
 
     drive(action);
 
@@ -143,10 +142,12 @@ public int update(){
     int max;
 
     //Exploration
+
     if(Math.random() <0.05 && iteration < 30){
-      max = (int) (5*Math.random());
+      max = (int) (3*Math.random());
       System.out.println("________DoRA Explora____________________");
-    } else {
+    } else if (array[0] == array[1] && array[1] == array[2]){max = (int) (3*Math.random());} 
+    else {
       //expliotation
       if(array[0] > array[1]) max = 0; else max = 1;
       if(array[max] < array[2]) max = 2;
