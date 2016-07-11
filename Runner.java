@@ -42,10 +42,10 @@ public class Runner{
     nancy.learn();
 
     while(true){
-      Thread.sleep(10);
+      Thread.sleep(18); //Minimum Refreshing rate: 18
       nancy.learn();
-      //nancy.updateSensor();
       prez.move();
+      //nancy.updateSensor();
       //nancy.updateSensor();
       //if(tester.robotCollision()){prez.reset();}
       earth.repaint();

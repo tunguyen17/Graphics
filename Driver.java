@@ -48,7 +48,7 @@ public class Driver{
   //methods
 
   public void learn(){
-
+    //updateSensor();
     //nn.printMat(nn.q, "q");
     action = nn.max(); //a
 
@@ -78,6 +78,7 @@ public class Driver{
     nn.back(l, maxQI);
 
     nn.forward(updateSensor());
+
   }
 
   //Finding value of the current state
