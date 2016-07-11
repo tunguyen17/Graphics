@@ -32,6 +32,15 @@ public class Sensor{
     return (int) (robot.getY() + maxDistance*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
   }
 
+  //Get the x and y corrdinate of where the sensor read the wall
+  public int getContactX(){
+    return (int) (robot.getX() + distance*Math.cos(relativeHeading+robot.getHeading()) + 0.5);
+  }
+
+  public int getContactY(){
+    return (int) (robot.getY() + distance*Math.sin(relativeHeading+robot.getHeading()) + 0.5);
+  }
+
   //If distance is 5, the robot is the closest to the wall
   public int[] detect(){
     distance = maxDistance;

@@ -103,7 +103,11 @@ public class World extends JPanel{
     //sensor
     for(int i = 0; i<sensor.length; i++){
       sensorReadings[i] = sensor[i].detect();
+
       if(sensorReadings[i][0]==1){
+        g2.setColor(Color.GRAY);
+        g2.setStroke(new BasicStroke(1));
+        g2.drawLine(robot.getX(), robot.getY(), sensor[i].getContactX(), sensor[i].getContactY());
         g2.setColor(Color.RED);
       } else{g2.setColor(Color.BLUE);}
       g2.setStroke(new BasicStroke(1));
