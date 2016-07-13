@@ -93,7 +93,7 @@ public class World extends JPanel{
     }
 
     //Test if robot has collided
-    tester.robotCollision();
+    if(tester.robotCollision()){robot.collided=true;}
 
     //Draw Robot | body
     g2.setColor(Color.GREEN);
