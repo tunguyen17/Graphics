@@ -20,7 +20,10 @@ public class Tester{
 
 
   public boolean robotCollision(){
-    if(img.getRGB(robot.xPos, robot.yPos) ==-14336 || img.getRGB(robot.xPos, robot.yPos) == -16777216){
+    int x = robot.xPos;
+    int y = robot.yPos;
+    System.out.println(img.getRGB(x, y));
+    if(img.getRGB(x, y) ==-14336 || img.getRGB(x, y)==-16777216){
       robot.collided = true;
     }
     return robot.collided;

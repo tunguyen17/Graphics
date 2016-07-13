@@ -70,7 +70,7 @@ public class Driver{
 
     drive(action);
 
-    if( tester.robotCollision() ){
+    if( robot.collided==true ){
       reward = -30;
 
       //Reset State
@@ -87,7 +87,7 @@ public class Driver{
     } else if( currState == 0 && prevState != 0){
       counter++;
       reward = 10;
-      System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
+      //System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
     }else reward=0;
 
 
@@ -143,10 +143,10 @@ public int update(){
 
     //Exploration
 
-    if(Math.random() <0.05 && iteration < 30){
+    if(Math.random() <0.5 && iteration < 30){
       max = (int) (3*Math.random());
       System.out.println("________DoRA Explora____________________");
-    } else if (array[0] == array[1] && array[1] == array[2]){max = (int) (3*Math.random());} 
+    } else if (array[0] == array[1] && array[1] == array[2]){max = (int) (3*Math.random());}
     else {
       //expliotation
       if(array[0] > array[1]) max = 0; else max = 1;

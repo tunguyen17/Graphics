@@ -34,7 +34,7 @@ public class Runner{
     earth.requestFocusInWindow();
     //Repaint things
     while(true){
-      Thread.sleep(18);
+      Thread.sleep(20);
       nancy.learn();
       prez.move();
 

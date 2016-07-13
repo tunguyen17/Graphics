@@ -91,7 +91,7 @@ public class World extends JPanel{
     for(int i = 0; i< box.length; i++){
       g2.fillRect(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
     }
-    tester.robotCollision();
+    if(tester.robotCollision()){robot.collided=true;}
     //Robot Stuff
     g2.setColor(Color.GREEN);
     g2.fillOval(robot.getX()-5, robot.getY()-5, 10, 10);
