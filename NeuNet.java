@@ -240,8 +240,8 @@ public class NeuNet{
 
 
     //Update W
-    w1 = subtract(w1, sMul(0.5, deltaW1));
-    w2 = subtract(w2, sMul(0.5, deltaW2));
-    w3 = subtract(w3, sMul(0.5, deltaW3));
+    w1 = subtract(w1, sMul(0.3, deltaW1));
+    w2 = subtract(w2, sMul(0.3, deltaW2));
+    w3 = subtract(w3, sMul(0.3, deltaW3));
   }
 }

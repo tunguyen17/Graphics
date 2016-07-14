@@ -16,7 +16,8 @@ public class Driver{
   public int prevState = 0;
   public int currState = 0; //Default value is 0
 
-  public int action = 0;
+  public int action = 1;
+  public int oldAction = 1;
 
   public double reward;
 
@@ -50,8 +51,10 @@ public class Driver{
   public void learn(){
     //updateSensor();
     //nn.printMat(nn.q, "q");
-    action = nn.max(); //a
+    reward = 0; //Reset reward
 
+    oldAction = action;
+    action = nn.max(); //a
     drive(action);
 
     //GET THE REWARDS FOR THE ACTION || r
@@ -68,7 +71,7 @@ public class Driver{
 
       iteration++;
       System.out.println("-------- ITERATION " + iteration);
-    }
+    } else if(action == 1 && oldAction == 1){reward = 0.01;}
 
     nn.forward( updateSensor() ); //s' , oldQ is backedup
     maxQI = nn.max(); //Q'
