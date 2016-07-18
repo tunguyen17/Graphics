@@ -6,15 +6,11 @@
 public class Runner{
   public static void main(String[] args) throws InterruptedException{
     //Box
-    Box[] box = new Box[5];
-    box[0] = new Box(100, 100, 100, 100);
-    box[1] = new Box(200, 500, 100, 50);
-    box[2] = new Box(500, 200, 200, 100);
-    box[3] = new Box(900, 400, 400, 200);
-    box[4] = new Box(500, 600, 400, 200);
+    Box[] box = new Box[1];
+    box[0] = new Box(300, 200, 700, 400);
 
     Sensor[] yoda = new Sensor[5];
-    Robot prez = new Robot(500, 500);
+    Robot prez = new Robot(500, 610);
 
     World earth = new World(1000, 500, prez, yoda, prez.getXPath(), prez.getYPath(), box);
     Container window = new Container(earth);
