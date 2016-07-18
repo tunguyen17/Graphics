@@ -82,14 +82,14 @@ public class World extends JPanel{
     //Border
     g2.setColor(Color.YELLOW);
     g2.setStroke(new BasicStroke(2));
-    g2.fillRect(140,140,width+20,height+20);
+    g2.fillOval(140,140,width+20,height+20);
     g2.setColor(Color.WHITE);
-    g2.fillRect(150, 150, width, height);
+    g2.fillOval(150, 150, width, height);
 
     //drawBox
     g2.setColor(Color.ORANGE);
     for(int i = 0; i< box.length; i++){
-      g2.fillRect(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
+      g2.fillOval(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
     }
     if(tester.robotCollision()){robot.collided=true;}
     //Robot Stuff

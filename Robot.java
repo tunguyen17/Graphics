@@ -83,7 +83,7 @@ public class Robot{
   public void reset(){
     xPos = xIntPos;
     yPos = yIntPos;
-    setHeading(2*Math.PI*Math.random());
+    setHeading(0);
     collided = false;
   }
 }
