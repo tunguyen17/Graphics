@@ -7,26 +7,24 @@ public class NeuNet{
   public double[][] inputs; //1x5
 
   //W1
-  public double[][] w1; //5x6
-  public double[][] deltaW1; //5x6
+  public double[][] w1; //5x5
+  public double[][] deltaW1; //5x5
+
+  //W1b
+  public double[][] w1b; //1x5
 
   //Hidden layer 1
-  public double[][] z1; //1x6
-  public double[][] a1; //1x6
-
-  //W2
-  public double[][] w2; //6x5
-  public double[][] deltaW2; //6x5
-
-  //Hidden layer 2
   public double[][] z2; //1x5
   public double[][] a2; //1x5
 
-  //W3
-  public double[][] w3; //5x3
-  public double[][] deltaW3; //5x3
+  //W2
+  public double[][] w2; //5x3
+  public double[][] deltaW2; //5x3
 
-  //Output layer
+  //W2b
+  public double[][] w2b; //1*3
+
+  //Hidden layer 2
   public double[][] z3; //1x3
   public double[][] q; //1x3
   public double[][] oldQ;
@@ -38,33 +36,29 @@ public class NeuNet{
     inputs = new double[1][5];
 
     //W1
-    w1 = new double[5][6];
-    deltaW1 = new double[5][6];
+    w1 = new double[5][5];
+    deltaW1 = new double[5][5];
     random(w1);
 
+    //W1b
+    random(w1b);
+
     //Hidden layer 1
-    z1 = new double[1][6];
-    a1 = new double[1][6];
-
-    //W2
-    w2 = new double[6][5];
-    deltaW2 = new double[6][5];
-    random(w2);
-
-    //Hidden layer 2
     z2 = new double[1][5];
     a2 = new double[1][5];
 
     //W2
-    w3 = new double[5][3];
-    deltaW3 = new double[5][3];
-    random(w3);
+    w2 = new double[5][3];
+    deltaW2 = new double[5][3];
+    random(w2);
+
+    //w2b
+    random(w2b);
 
     //Output layer
     z3 = new double[1][3];
     q = new double[1][3];
     oldQ = new double[1][3];
-
   }
 
   /*Methods*/
