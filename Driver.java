@@ -51,15 +51,17 @@ public class Driver{
   public void learn(){
     //updateSensor();
     //nn.printMat(nn.q, "q");
+    double target = 0;
     reward = 0; //Reset reward
 
-    oldAction = action;
+    nn.forward(updateSensor()); // Q(s, a)
     action = nn.max(); //a
-    drive(action);
+    drive(action); // carry out action a
 
     //GET THE REWARDS FOR THE ACTION || r
     if(robot.collided){
-      reward = -0.5;
+
+      reward = 0.00001;
       //Reset State
       prevState = 0;
       currState = 0;
@@ -70,20 +72,14 @@ public class Driver{
 
       iteration++;
       //System.out.println("-------- ITERATION " + iteration);
-    } else {
 
-      reward = 0.1;
+      target = reward;
+
+      nn.back(target, action);
+    } else{
+
     }
-      nn.forward( updateSensor() ); //s' , oldQ is backedup
-      maxQI = nn.max(); //Q'
-
-      double target = ( reward + 0.9*nn.q[0][maxQI] );  //qTarget = Reward + gamma*Q(s', a', Theta^-)
-
-      System.out.println(target);
-      nn.back(target, maxQI);
-
-      nn.forward(updateSensor());
-
+    System.out.println(target);
   }
 
   //Finding value of the current state
