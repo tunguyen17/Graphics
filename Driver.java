@@ -59,28 +59,30 @@ public class Driver{
 
     //GET THE REWARDS FOR THE ACTION || r
     if(robot.collided){
-      reward = -0.3;
-
+      reward = -0.5;
       //Reset State
       prevState = 0;
       currState = 0;
       counter = 0;
 
-      System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
+      //System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
       robot.reset();
 
       iteration++;
-      System.out.println("-------- ITERATION " + iteration);
-    } else if(action == 1 && oldAction == 1){reward = 0.01;}
+      //System.out.println("-------- ITERATION " + iteration);
+    } else {
 
-    nn.forward( updateSensor() ); //s' , oldQ is backedup
-    maxQI = nn.max(); //Q'
+      reward = 0.1;
+    }
+      nn.forward( updateSensor() ); //s' , oldQ is backedup
+      maxQI = nn.max(); //Q'
 
-    double l = nn.oldQ[0][maxQI] - ( reward + 0.9*nn.q[0][maxQI] );  //qTarget = Reward + gamma*Q(s', a', Theta^-)
+      double target = ( reward + 0.9*nn.q[0][maxQI] );  //qTarget = Reward + gamma*Q(s', a', Theta^-)
 
-    nn.back(l, maxQI);
+      System.out.println(target);
+      nn.back(target, maxQI);
 
-    nn.forward(updateSensor());
+      nn.forward(updateSensor());
 
   }
 

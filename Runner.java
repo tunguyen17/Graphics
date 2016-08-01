@@ -35,10 +35,10 @@ public class Runner{
     Thread.sleep(50);
     nancy.nn.forward( nancy.updateSensor() );
 
-    nancy.learn();
+    //nancy.learn();
 
     while(true){
-      Thread.sleep(18); //Minimum Refreshing rate: 18
+      Thread.sleep(20); //Minimum Refreshing rate: 18
       nancy.learn();
       prez.move();
       //nancy.updateSensor();
