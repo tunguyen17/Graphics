@@ -49,15 +49,19 @@ public class Driver{
   //methods
 
   public void learn(){
+
+    iteration++;
+    System.out.println("-------- ITERATION " + iteration);
     //updateSensor();
     //nn.printMat(nn.q, "q");
     double target = 0;
     reward = 0; //Reset reward
 
     nn.forward(updateSensor()); // Q(s, a)
-    action = nn.max(); //a
+    if(Math.random()<0.1 && iteration < 500) action = (int) (3.0*Math.random());
+      else action = nn.max(); //a
     drive(action); // carry out action a
-
+    robot.move();
     //GET THE REWARDS FOR THE ACTION || r
     if(robot.collided){
 
@@ -70,13 +74,17 @@ public class Driver{
       //System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
       robot.reset();
 
-      iteration++;
-      //System.out.println("-------- ITERATION " + iteration);
-
       target = reward;
 
       nn.back(target, action);
     } else{
+
+      nn.forward(updateSensor()); //Q(s', a')
+      action = nn.max();
+      target = reward + nn.q[0][action];
+
+      nn.back2(target, action);
+
 
     }
     System.out.println(target);
