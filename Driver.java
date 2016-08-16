@@ -13,148 +13,109 @@ public class Driver{
   public int[] sensorCluster;
   public Sensor[] sensorList;
 
-  public double[][] qMat;
-
   public int prevState = 0;
   public int currState = 0; //Default value is 0
 
-  public double[] prevQ;
-  public double[] currQ;
-
-  public int prevAction =0;
-  public int action = 0;
+  public int action = 1;
+  public int oldAction = 1;
 
   public double reward;
 
-  public int iteration=0;
+  public int iteration = 0;
 
   public int counter = 0;
 
   public Tester tester;
 
+  public World world;
+
+  //NEURAL NETWORK THINGS
+  public NeuNet nn;
+
+  public int maxQI = 1; //Max Q index
+
   //Constructor
-  public Driver(Robot newRobot, Sensor[] newSensorList, Tester newTester){
+  public Driver(World newWorld, Robot newRobot, Sensor[] newSensorList, Tester newTester){
+    world = newWorld;
     robot = newRobot;
     sensorList = newSensorList;
     tester = newTester;
 
     sensorCluster = new int[sensorList.length];
 
-    qMat = new double[32768][5];
-
-    currQ = new double[5];
-    prevQ = new double[5];
-
+    nn = new NeuNet();
   }
 
   //methods
 
   public void learn(){
-    //System.out.println(update());
-    currQ = qMat[update()];
 
+    iteration++;
+    System.out.println("-------- ITERATION " + iteration);
+    //updateSensor();
+    //nn.printMat(nn.q, "q");
+    double target = 0;
+    reward = 0; //Reset reward
 
-    //Save old action and update new action
-    prevAction = action;
-    if(currState != 0) action = max(currQ);
-    else action = (int) (5*Math.random());
+    nn.forward(updateSensor()); // Q(s, a)
+    if(Math.random()<0.1 && iteration < 500) action = (int) (3.0*Math.random());
+      else action = nn.max(); //a
+    drive(action); // carry out action a
+    robot.move();
+    //GET THE REWARDS FOR THE ACTION || r
+    if(robot.collided){
 
-    drive(action);
-
-    if( tester.borderCollision() || tester.boxCollision() ){
-      reward = -30;
-
+      reward = 0.00001;
       //Reset State
       prevState = 0;
       currState = 0;
       counter = 0;
 
-      System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
+      //System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
       robot.reset();
 
-      iteration++;
-      System.out.println("-------- ITERATION " + iteration);
+      target = reward;
 
-    } else if( currState == 0 && prevState != 0){
-      counter++;
-      reward = 10;
-      System.out.println(ANSI_CYAN + "Robot escaped " + reward + " -- " + counter + ANSI_RESET);
-    }else if (action == 2) {
-      reward = 10;
-      System.out.println("Robot is going straight");
-    } else reward=0;
+      nn.back(target, action);
+    } else{
 
+      nn.forward(updateSensor()); //Q(s', a')
+      action = nn.max();
+      target = reward + nn.q[0][action];
+
+      nn.back2(target, action);
 
 
-    // newQ += learnging rate * (reward + gamma.maxCurrentQ(currentState, currentAction) - oldQ)
-    prevQ[prevAction] += 0.3 * (reward + 0.3*currQ[action] - prevQ[prevAction]);
-
-    //System.out.print(currQ[0]+"  ");
-    //System.out.print(currQ[1]+"  ");
-    //System.out.println(currQ[2]+"  ");
-
-    //update Q-matrix
-    qMat[prevState] = prevQ;
-    prevQ = currQ;
-    qMat[0] =new double[] {0, 0, 0, 0, 0};
-
+    }
+    System.out.println(target);
+    nn.export();
   }
 
-  //Finding value of the current state;
-public int update(){
+  //Finding value of the current state
+  public double[][] updateSensor(){
+    double[][] s = new double[1][5];
 
-  //Updte previousState and reset currentState
-  prevState = currState;
-  currState = 0;
-
-  for(int i = 0; i< sensorList.length; i++){
-    currState += sensorList[i].detect()*Math.pow(2,i);
+    for(int i = 0; i< sensorList.length; i++){
+      s[0][i] = sensorList[i].getDistance()/100.;
+    }
+    return s;
   }
-
-  return currState;
-}
 
   public void drive(int input){
     switch(input){
 
-      case 0: robot.turnLeft2();
+      case 0: robot.turnLeft();
               break;
 
-      case 1: robot.turnLeft();
+      case 1: break;
+
+      case 2: robot.turnRight();
               break;
 
-      case 2: break;
-
-      case 3: robot.turnRight();
-              break;
-
-      case 4: robot.turnRight2();
-              break;
       default: break;
 
     }
   }
 
-
-  //Methods for finding max qValue
-  public int max(double[] array){
-
-    int max0;
-    int max1;
-    int max;
-
-    //Exploration
-    if(Math.random() <0.05 && iteration < 30){
-      max = (int) (5*Math.random());
-      System.out.println("________DoRA Explora____________________");
-    } else {
-      //expliotation
-      if(array[0] > array[1]) max0 = 0; else max0 = 1;
-      if(array[2] > array[3]) max1 = 2; else max1 = 3;
-      if(array[max0] > array[max1]) max = max0; else max = max1;
-      if(array[max] < array[4]) max = 4;
-    }
-  return max;
-  }
 
 }

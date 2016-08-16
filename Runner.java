@@ -6,13 +6,11 @@
 public class Runner{
   public static void main(String[] args) throws InterruptedException{
     //Box
-    Box[] box = new Box[3];
-    box[0] = new Box(10, 20, 100, 100);
-    box[1] = new Box(200, 500, 100, 50);
-    box[2] = new Box(500, 200, 200,100);
+    Box[] box = new Box[1];
+    box[0] = new Box(300, 200, 700, 400);
 
-    Sensor[] yoda = new Sensor[15];
-    Robot prez = new Robot(200, 200);
+    Sensor[] yoda = new Sensor[5];
+    Robot prez = new Robot(500, 610);
 
     World earth = new World(1000, 500, prez, yoda, prez.getXPath(), prez.getYPath(), box);
     Container window = new Container(earth);
@@ -21,36 +19,32 @@ public class Runner{
 
     Tester tester = new Tester(earth, prez, box);
 
-    yoda[0] = new Sensor(prez, -Math.PI/2, tester, 75);
-    yoda[1] = new Sensor(prez, -Math.PI/4, tester, 75);
-    yoda[2] = new Sensor(prez, 0, tester, 75);
-    yoda[3] = new Sensor(prez, Math.PI/4, tester, 75);
-    yoda[4] = new Sensor(prez, Math.PI/2, tester, 75);
+    earth.setTester(tester);
 
-    yoda[5] = new Sensor(prez, -Math.PI/2, tester, 50);
-    yoda[6] = new Sensor(prez, -Math.PI/4, tester, 50);
-    yoda[7] = new Sensor(prez, 0, tester, 50);
-    yoda[8] = new Sensor(prez, Math.PI/4, tester, 50);
-    yoda[9] = new Sensor(prez, Math.PI/2, tester, 50);
-
-    yoda[10] = new Sensor(prez, -Math.PI/2, tester, 25);
-    yoda[11] = new Sensor(prez, -Math.PI/4, tester, 25);
-    yoda[12] = new Sensor(prez, 0, tester, 25);
-    yoda[13] = new Sensor(prez, Math.PI/4, tester, 25);
-    yoda[14] = new Sensor(prez, Math.PI/2, tester, 25);
-
-    Driver nancy = new Driver(prez, yoda, tester);
+    yoda[0] = new Sensor(prez, -Math.PI/2, tester);
+    yoda[1] = new Sensor(prez, -Math.PI/4, tester);
+    yoda[2] = new Sensor(prez, 0, tester);
+    yoda[3] = new Sensor(prez, Math.PI/4, tester);
+    yoda[4] = new Sensor(prez, Math.PI/2, tester);
+    earth.repaint();
+    Driver nancy = new Driver(earth, prez, yoda, tester);
 
     earth.requestFocusInWindow();
-    //Repaint things
-    while(true){
-      Thread.sleep(20);
-      for(int i = 0; i<5; i++){yoda[i].detectBorder();}
-      nancy.learn();
-      prez.move();
 
-      //if(tester.borderCollision()){prez.reset();}
+    //INITIALIZE sensor + network
+    Thread.sleep(50);
+    nancy.nn.forward( nancy.updateSensor() );
+
+    //nancy.learn();
+
+    while(true){
+      Thread.sleep(20); //Minimum Refreshing rate: 18
+      nancy.learn();
+      //nancy.updateSensor();
+      //nancy.updateSensor();
+      //if(tester.robotCollision()){prez.reset();}
       earth.repaint();
+      
     }
   }
 }

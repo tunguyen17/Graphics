@@ -16,6 +16,8 @@ public class Robot{
 
   public double heading = 0; //Initial heading 0
 
+  public boolean collided;
+
   //Constructor
   public Robot(int newX,int newY){
     //Initialize the position of the robot
@@ -27,6 +29,8 @@ public class Robot{
 
     xPath = new PathArray(xPos);
     yPath = new PathArray(xPos);
+
+    collided = false;
   }
 
   //Getter
@@ -51,9 +55,9 @@ public class Robot{
   }
 
   public void turnLeft(){heading-=0.3;}
+  public void turnRight(){heading+=0.3;}
   public void turnLeft2(){heading-=0.1;}
-  public void turnRight(){heading+=0.1;}
-  public void turnRight2(){heading+=0.3;}
+  public void turnRight2(){heading+=0.1;}
   public void setHeading(double newHeading){heading = newHeading;}
 
   /* Need to test this more
@@ -79,6 +83,8 @@ public class Robot{
   public void reset(){
     xPos = xIntPos;
     yPos = yIntPos;
-    setHeading(2*Math.PI*Math.random());
+    //setHeading(2*Math.PI*Math.random());
+    setHeading(0);
+    collided = false;
   }
 }
