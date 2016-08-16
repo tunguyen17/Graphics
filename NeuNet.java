@@ -113,7 +113,10 @@ public class NeuNet{
     Matrix.printMat(q, "Q");
   }
 
+  //Update for collision
   public void back(double t, int index){
+
+    //Coppy the old q with the target Q
     for(int i = 0; i < 3; i++){
       target[0][i] = q[0][i];
     }
@@ -139,6 +142,8 @@ public class NeuNet{
     w1b = Matrix.subtract(w1b, Matrix.sMul(10, delta2));
     w2b = Matrix.subtract(w2b, Matrix.sMul(10, delta3));
   }
+
+
 
   public void back2(double t, int index){
 

@@ -56,12 +56,17 @@ public class Driver{
     //nn.printMat(nn.q, "q");
     double target = 0;
     reward = 0; //Reset reward
+    oldAction = action; //update old action
 
     nn.forward(updateSensor()); // Q(s, a)
+
+    //Action chooser
     if(Math.random()<0.1 && iteration < 500) action = (int) (3.0*Math.random());
       else action = nn.max(); //a
+
     drive(action); // carry out action a
     robot.move();
+
     //GET THE REWARDS FOR THE ACTION || r
     if(robot.collided){
 
@@ -78,12 +83,12 @@ public class Driver{
 
       nn.back(target, action);
     } else{
+      //no Collision
 
-      nn.forward(updateSensor()); //Q(s', a')
-      action = nn.max();
+      reward = 0.05;
       target = reward + nn.q[0][action];
 
-      nn.back2(target, action);
+      nn.back2(target, oldAction);
 
 
     }
