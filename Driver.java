@@ -88,6 +88,7 @@ public class Driver{
 
     }
     System.out.println(target);
+    nn.export();
   }
 
   //Finding value of the current state

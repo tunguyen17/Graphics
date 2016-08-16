@@ -44,7 +44,7 @@ public class Runner{
       //nancy.updateSensor();
       //if(tester.robotCollision()){prez.reset();}
       earth.repaint();
-
+      
     }
   }
 }

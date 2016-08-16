@@ -1,7 +1,10 @@
+import java.io.PrintWriter;
+import java.io.IOException;
 
 public class NeuNet{
 
   /*Fields*/
+  PrintWriter out;
 
   //inputs layer
   public double[][] oldInputs; //1x5
@@ -35,6 +38,8 @@ public class NeuNet{
 
   /*Constructor*/
   public NeuNet(){
+
+    try{out = new PrintWriter("weight.txt");} catch(IOException e){System.out.println("Error");}
 
     //inputs layer
     oldInputs = new double[1][5];
@@ -162,4 +167,28 @@ public class NeuNet{
     w1b = Matrix.subtract(w1b, Matrix.sMul(3, delta2));
     w2b = Matrix.subtract(w2b, Matrix.sMul(3, delta3));
   }
+
+  public void export(){
+    out.println("W1");
+    out.println("-------");
+    for(int i = 0; i<w1.length; i++){
+      for(int j = 0; j<w1[0].length; j++){
+        out.print(w1[i][j] + "  ");
+      }
+      out.println();
+    }
+    out.println();
+
+    out.println("w2");
+    out.println("-------");
+    for(int i = 0; i<w2.length; i++){
+      for(int j = 0; j<w2[0].length; j++){
+        out.print(w1[i][j] + "  ");
+      }
+      out.println();
+    }
+    out.println();
+  }
+
+
 }
