@@ -88,6 +88,17 @@ public class Matrix{
     return t;
   }
 
+  //*Coppy Matrices*//
+  public static double[][] coppy(double[][] a){
+    double b[][] = new double[a.length][a[0].length];
+    for(int i = 0; i < a.length; i++){
+      for(int j = 0; j < a[0].length; j++){
+        b[i][j] = a[i][j];
+      }
+    }
+    return b;
+  }
+
   /////////////NEURAL NETWORK STUFF/////////////////////
 
   //*RANDOMIZE MATRIX*// || METHOD CHECKED

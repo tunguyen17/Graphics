@@ -55,8 +55,8 @@ public class NeuNet{
     Matrix.random(w1b);
 
     //Hidden layer 1
-    z2 = new double[1][5];
-    a2 = new double[1][5];
+    z2 = new double[5][5];
+    a2 = new double[5][5];
 
     //W2
     w2 = new double[5][3];
@@ -73,7 +73,7 @@ public class NeuNet{
     oldQ = new double[1][3];
 
     //target
-    target = new double[1][3];
+    target = new double[5][3];
   }
 
   public int max(){
@@ -106,24 +106,22 @@ public class NeuNet{
     z2 = Matrix.add(Matrix.mul(inputs, w1), w1b);
     a2 = Matrix.s(z2);
 
+
     //Output
     z3 = Matrix.add(Matrix.mul(a2, w2), w2b);
     q = Matrix.s(z3);
   }
 
   //Update for collision
-  public void back(double t, int index){
+  public void back(double[][] t){
 
-    //Coppy the old q with the target Q
-    for(int i = 0; i < 3; i++){
-      target[0][i] = q[0][i];
-    }
-    target[0][index] = t;
 
     //max(q, r, gamma)
 
     double[][] delta2;
     double[][] delta3;
+
+    Matrix.printMat(Matrix.subtract(q, target), "Loss");
 
     //W2
     delta3 = Matrix.hMul( Matrix.subtract(q, target), Matrix.sPrime(z3) );
@@ -134,11 +132,11 @@ public class NeuNet{
     deltaW1 = Matrix.mul(Matrix.transpose(inputs), delta2);
 
     //Update W
-    w1 = Matrix.subtract(w1, Matrix.sMul(5, deltaW1));
-    w2 = Matrix.subtract(w2, Matrix.sMul(5, deltaW2));
+    w1 = Matrix.subtract(w1, Matrix.sMul(15, deltaW1));
+    w2 = Matrix.subtract(w2, Matrix.sMul(15, deltaW2));
 
-    w1b = Matrix.subtract(w1b, Matrix.sMul(5, delta2));
-    w2b = Matrix.subtract(w2b, Matrix.sMul(5, delta3));
+    w1b = Matrix.subtract(w1b, Matrix.sMul(15, delta2));
+    w2b = Matrix.subtract(w2b, Matrix.sMul(15, delta3));
   }
 
 
@@ -164,11 +162,11 @@ public class NeuNet{
     deltaW1 = Matrix.mul(Matrix.transpose(oldInputs), delta2);
 
     //Update W
-    w1 = Matrix.subtract(w1, Matrix.sMul(5, deltaW1));
-    w2 = Matrix.subtract(w2, Matrix.sMul(5, deltaW2));
+    w1 = Matrix.subtract(w1, Matrix.sMul(15, deltaW1));
+    w2 = Matrix.subtract(w2, Matrix.sMul(15, deltaW2));
 
-    w1b = Matrix.subtract(w1b, Matrix.sMul(5, delta2));
-    w2b = Matrix.subtract(w2b, Matrix.sMul(5, delta3));
+    w1b = Matrix.subtract(w1b, Matrix.sMul(15, delta2));
+    w2b = Matrix.subtract(w2b, Matrix.sMul(15, delta3));
   }
 
   public void export(){
@@ -192,6 +190,4 @@ public class NeuNet{
     }
     out.println();
   }
-
-
 }
