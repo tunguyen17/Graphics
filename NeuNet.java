@@ -109,8 +109,6 @@ public class NeuNet{
     //Output
     z3 = Matrix.add(Matrix.mul(a2, w2), w2b);
     q = Matrix.s(z3);
-
-    Matrix.printMat(q, "Q");
   }
 
   //Update for collision
@@ -136,11 +134,11 @@ public class NeuNet{
     deltaW1 = Matrix.mul(Matrix.transpose(inputs), delta2);
 
     //Update W
-    w1 = Matrix.subtract(w1, Matrix.sMul(10, deltaW1));
-    w2 = Matrix.subtract(w2, Matrix.sMul(10, deltaW2));
+    w1 = Matrix.subtract(w1, Matrix.sMul(5, deltaW1));
+    w2 = Matrix.subtract(w2, Matrix.sMul(5, deltaW2));
 
-    w1b = Matrix.subtract(w1b, Matrix.sMul(10, delta2));
-    w2b = Matrix.subtract(w2b, Matrix.sMul(10, delta3));
+    w1b = Matrix.subtract(w1b, Matrix.sMul(5, delta2));
+    w2b = Matrix.subtract(w2b, Matrix.sMul(5, delta3));
   }
 
 
@@ -166,11 +164,11 @@ public class NeuNet{
     deltaW1 = Matrix.mul(Matrix.transpose(oldInputs), delta2);
 
     //Update W
-    w1 = Matrix.subtract(w1, Matrix.sMul(3, deltaW1));
-    w2 = Matrix.subtract(w2, Matrix.sMul(3, deltaW2));
+    w1 = Matrix.subtract(w1, Matrix.sMul(5, deltaW1));
+    w2 = Matrix.subtract(w2, Matrix.sMul(5, deltaW2));
 
-    w1b = Matrix.subtract(w1b, Matrix.sMul(3, delta2));
-    w2b = Matrix.subtract(w2b, Matrix.sMul(3, delta3));
+    w1b = Matrix.subtract(w1b, Matrix.sMul(5, delta2));
+    w2b = Matrix.subtract(w2b, Matrix.sMul(5, delta3));
   }
 
   public void export(){

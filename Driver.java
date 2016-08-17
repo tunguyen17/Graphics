@@ -2,6 +2,7 @@ import java.util.Arrays;
 
 public class Driver{
   //Fields
+  public int fitness =0;
 
   //for text color
   public static final String ANSI_RESET = "\u001B[0m";
@@ -61,7 +62,7 @@ public class Driver{
     nn.forward(updateSensor()); // Q(s, a)
 
     //Action chooser
-    if(Math.random()<0.1 && iteration < 500) action = (int) (3.0*Math.random());
+    if(Math.random()<0.01 && iteration < 2000) action = (int) (3.0*Math.random());
       else action = nn.max(); //a
 
     drive(action); // carry out action a
@@ -75,24 +76,25 @@ public class Driver{
       prevState = 0;
       currState = 0;
       counter = 0;
+      fitness = 0;
 
       //System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
       robot.reset();
 
       target = reward;
 
-      nn.back(target, action);
     } else{
       //no Collision
 
       reward = 0.05;
       target = reward + nn.q[0][action];
 
-      nn.back2(target, oldAction);
-
+      fitness++;
 
     }
-    System.out.println(target);
+    nn.back2(target, oldAction);
+    System.out.println("target" + target);
+    System.out.println("FITNESS: " + fitness);
     nn.export();
   }
 

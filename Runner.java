@@ -38,13 +38,13 @@ public class Runner{
     //nancy.learn();
 
     while(true){
-      Thread.sleep(20); //Minimum Refreshing rate: 18
+      Thread.sleep(27); //Minimum Refreshing rate: 18
       nancy.learn();
       //nancy.updateSensor();
       //nancy.updateSensor();
       //if(tester.robotCollision()){prez.reset();}
       earth.repaint();
-      
+
     }
   }
 }
