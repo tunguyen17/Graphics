@@ -37,7 +37,7 @@ public class Driver{
   //Constructor
   public Driver(World newWorld, Robot newRobot, Sensor[] newSensorList, Tester newTester){
 
-    d = new Memory(300, 5);
+    d = new Memory(100, 5);
     world = newWorld;
     robot = newRobot;
     sensorList = newSensorList;
@@ -91,6 +91,7 @@ public class Driver{
 
     }
     System.out.println("FITNESS: " + fitness);
+    if(iteration > 100){d.getBatch();}
     nn.export();
   }
 

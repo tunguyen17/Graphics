@@ -6,7 +6,7 @@ public class Experience{
   public double r;
   public double[][] sPrime;
   public double aPrime;
-  public boolean collision = false;
+  public boolean collision;
 
   public Experience(double[][] newS, int newA, double newR, double[][] newSPrime, double newAPrime){
     s = newS;
@@ -14,5 +14,16 @@ public class Experience{
     r = newR;
     sPrime = newSPrime;
     aPrime = newAPrime;
+    collision = false;
+  }
+  public Experience(double[][] newS, int newA, double newR){
+    s = newS;
+    a = newA;
+    r = newR;
+    collision = true;
+  }
+
+  public void print(){
+    System.out.println("a - " + a + " r - " + r + " Collision - " + collision);
   }
 }

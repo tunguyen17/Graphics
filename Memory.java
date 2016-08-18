@@ -18,13 +18,8 @@ public class Memory{
   public void add(double[][] newS, int newA, double newR, double[][] newSPrime, int newAPrime){
 
     try{
-      d[curr].s = Matrix.coppy(newS);
-      d[curr].a = newA;
-      d[curr].r = newR;
-      d[curr].sPrime = Matrix.coppy(newSPrime);
-      d[curr].aPrime = newAPrime;
-      d[curr].collision = false;
-      if(curr < n-2){curr++;} else {
+      d[curr] = new Experience(newS, newA, newR, newSPrime, newAPrime);
+      if(curr < n-1){curr++;} else {
         curr = 0;
       }
     } catch(ArrayIndexOutOfBoundsException e){curr = 0;}
@@ -33,24 +28,22 @@ public class Memory{
   public void add(double[][] newS, int newA, double newR){
 
     try{
-      d[curr].s = Matrix.coppy(newS);
-      d[curr].a = newA;
-      d[curr].r = newR;
-      d[curr].collision = true;
+      d[curr] = new Experience(newS, newA, newR);
 
-      if(curr < n-2){curr++;} else {
+      if(curr < n-1){curr++;} else {
         curr = 0;
       }
     } catch(ArrayIndexOutOfBoundsException e){curr = 0;}
   }
 
   public Experience[] getBatch(){
+    System.out.println("\nnew Batch +++++++++");
     int u = (int) ( n*Math.random() );
     for(int i = 0; i < k; i++){
-      while(d[u].r == 0){
-        u = (int) ( n*Math.random() );
-      }
+      u = (int) ( n*Math.random() );
+      System.out.println("\n" + u);
       batch[i] = d[u];
+      batch[i].print();
     }
     return batch;
   }

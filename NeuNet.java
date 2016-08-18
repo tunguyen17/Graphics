@@ -169,6 +169,10 @@ public class NeuNet{
     w2b = Matrix.subtract(w2b, Matrix.sMul(15, delta3));
   }
 
+  public void back3(Experience exp){
+    
+  }
+
   public void export(){
     out.println("W1");
     out.println("-------");
