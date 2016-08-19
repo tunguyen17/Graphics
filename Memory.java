@@ -87,6 +87,14 @@ public class Memory{
     return actions;
   }
 
+  public int[] getActionsPrime(){
+    int[] actionsPrime = new int[k];
+    for(int i = 0; i < k; i++){
+      actionsPrime[i] = batch[i].aPrime;
+    }
+    return actionsPrime;
+  }
+
   public boolean[] getCollisions(){
     boolean[] collisions = new boolean[k];
     for(int i = 0; i < k; i++){

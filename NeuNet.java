@@ -100,7 +100,7 @@ public class NeuNet{
 
   public void back2(double t, int index){
 
-    double[][] target = Matrix.coppy(oldQ);
+    double[][] target = Matrix.coppy(q);
     target[0][index] = t;
 
     //max(q, r, gamma)
@@ -109,7 +109,7 @@ public class NeuNet{
     double[][] delta3;
 
     //W2
-    delta3 = Matrix.hMul( Matrix.subtract(oldQ, target), Matrix.sPrime(z3) );
+    delta3 = Matrix.hMul( Matrix.subtract(q, target), Matrix.sPrime(z3) );
     deltaW2 = Matrix.mul( Matrix.transpose(a2), delta3 );
 
     //W1
@@ -132,29 +132,38 @@ public class NeuNet{
     mem.getBatch();
     double[][] state = mem.getS();
     double[][] statePrime = mem.getSPrime();
+
     int[] actions = mem.getActions();
+    int[] actionsPrime = mem.getActionsPrime();
+
     double[] rewards = mem.getRewards();
     boolean[] collisions = mem.getCollisions();
 
+    //Q(s, a)
     double[][] z2Temp = Matrix.add(Matrix.mul(state, w1), w1b);
     double[][] a2Temp = Matrix.s(z2Temp);
     double[][] z3Temp = Matrix.add(Matrix.mul(a2Temp, w2), w2b);
     double[][] qTemp = Matrix.s(z3Temp);
 
+    //Duplicate qTemp
     double[][] targets = Matrix.coppy(qTemp);
 
-    double[][] z2TempPrime = Matrix.add(Matrix.mul(statePrime, w1), w1b);
-    double[][] a2TempPrime = Matrix.s(z2TempPrime);
-    double[][] z3TempPrime = Matrix.add(Matrix.mul(a2TempPrime, w2), w2b);
-    double[][] qTempPrime = Matrix.s(z3TempPrime);
+    //for back Prompangation
+    double[][] delta2;
+    double[][] delta3;
 
-    for(int i = 0; i < qTempPrime.length; i++){
-      if(collisions[i]) {
+    for(int i = 0; i<qTemp.length; i++){
+      if(!collisions[i]){
+        //Q(s', a' )
+        double[][] z2TempPrime = Matrix.add(Matrix.mul(statePrime, w1), w1b);
+        double[][] a2TempPrime = Matrix.s(z2TempPrime);
+        double[][] z3TempPrime = Matrix.add(Matrix.mul(a2TempPrime, w2), w2b);
+        double[][] qTempPrime = Matrix.s(z3TempPrime);
+        targets[i][actions[i]] = 0.8 + 0.2*qTempPrime[i][actions[i]];
+        //targets[i][actions[i]] = 0.777;
+      } else{
         targets[i][actions[i]] = rewards[i];
-      }else{
-        targets[i][actions[i]] = 1;
       }
-      //targets[i][actions[i]] = 0.7777; //Miracle number
     }
 
     for(int i =0; i < actions.length; i++){
@@ -165,13 +174,11 @@ public class NeuNet{
     Matrix.printMat(qTemp, "QTemp");
     Matrix.printMat(targets, "target");
 
+
     //Back Prompangation
-
-    double[][] delta2;
-    double[][] delta3;
-
     //W2
     delta3 = Matrix.hMul( Matrix.subtract(qTemp, targets), Matrix.sPrime(z3Temp) );
+    Matrix.printMat(Matrix.subtract(qTemp, targets), "loss");
     deltaW2 = Matrix.mul( Matrix.transpose(a2Temp), delta3 );
 
     //W1
@@ -179,11 +186,11 @@ public class NeuNet{
     deltaW1 = Matrix.mul(Matrix.transpose(state), delta2);
 
     //Update W
-    w1 = Matrix.subtract(w1, Matrix.sMul(5, deltaW1));
-    w2 = Matrix.subtract(w2, Matrix.sMul(5, deltaW2));
+    w1 = Matrix.subtract(w1, Matrix.sMul(20, deltaW1));
+    w2 = Matrix.subtract(w2, Matrix.sMul(20, deltaW2));
 
-    w1b = Matrix.subtract(w1b, Matrix.sMul(5, delta2));
-    w2b = Matrix.subtract(w2b, Matrix.sMul(5, delta3));
+    w1b = Matrix.subtract(w1b, Matrix.sMul(20, delta2));
+    w2b = Matrix.subtract(w2b, Matrix.sMul(20, delta3));
 
   }
 

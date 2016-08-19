@@ -24,6 +24,7 @@ public class Driver{
   public double reward;
 
   public int iteration = 0;
+  public int sum = 0;
 
   public Tester tester;
 
@@ -37,7 +38,7 @@ public class Driver{
   //Constructor
   public Driver(World newWorld, Robot newRobot, Sensor[] newSensorList, Tester newTester){
 
-    d = new Memory(100, 5);
+    d = new Memory(100, 2);
     world = newWorld;
     robot = newRobot;
     sensorList = newSensorList;
@@ -70,7 +71,7 @@ public class Driver{
       System.out.println("-------- ITERATION " + iteration);
       iteration++;
 
-      reward = nn.q[0][action]*0.5;
+      reward = 0.0001;
       nn.back2(reward, action);
       //d.add(state, action, reward);
       //Reset State
@@ -89,10 +90,11 @@ public class Driver{
       //target = reward + nn.q[0][action];
 
       fitness++;
+      sum++;
 
     }
     System.out.println("FITNESS: " + fitness);
-    if(iteration > 100){nn.learn(d);}
+    //if(sum > 100){nn.learn(d);}
     nn.export();
   }
 

@@ -5,10 +5,10 @@ public class Experience{
   public int a;
   public double r;
   public double[][] sPrime;
-  public double aPrime;
+  public int aPrime;
   public boolean collision;
 
-  public Experience(double[][] newS, int newA, double newR, double[][] newSPrime, double newAPrime){
+  public Experience(double[][] newS, int newA, double newR, double[][] newSPrime, int newAPrime){
     s = newS;
     a = newA;
     r = newR;
