@@ -8,6 +8,7 @@ public class NeuNet{
 
   //inputs layer
   public double[][] inputs; //1x5
+  public double[][] oldInputs; //1x5
 
   //W1
   public double[][] w1; //5x5
@@ -30,7 +31,7 @@ public class NeuNet{
   //Hidden layer 2
   public double[][] z3; //1x3
   public double[][] q; //1x3
-
+  public double[][] oldQ; //1x3
 
   /*Constructor*/
   public NeuNet(){
@@ -83,6 +84,8 @@ public class NeuNet{
 
 
   public void forward(double[][] sensorInput){
+    oldInputs = Matrix.coppy(inputs);
+    oldQ = Matrix.coppy(q);
     inputs = sensorInput;
 
     //Hidden layer 1
@@ -94,6 +97,33 @@ public class NeuNet{
     z3 = Matrix.add(Matrix.mul(a2, w2), w2b);
     q = Matrix.s(z3);
   }
+
+  public void back2(double t, int index){
+
+    double[][] target = Matrix.coppy(oldQ);
+    target[0][index] = t;
+
+    //max(q, r, gamma)
+
+    double[][] delta2;
+    double[][] delta3;
+
+    //W2
+    delta3 = Matrix.hMul( Matrix.subtract(oldQ, target), Matrix.sPrime(z3) );
+    deltaW2 = Matrix.mul( Matrix.transpose(a2), delta3 );
+
+    //W1
+    delta2 = Matrix.hMul( Matrix.mul(delta3, Matrix.transpose(w2)), Matrix.sPrime(z2) );
+    deltaW1 = Matrix.mul(Matrix.transpose(oldInputs), delta2);
+
+    //Update W
+    w1 = Matrix.subtract(w1, Matrix.sMul(3, deltaW1));
+    w2 = Matrix.subtract(w2, Matrix.sMul(3, deltaW2));
+
+    w1b = Matrix.subtract(w1b, Matrix.sMul(3, delta2));
+    w2b = Matrix.subtract(w2b, Matrix.sMul(3, delta3));
+  }
+
 
   public void learn(Memory mem){
     //new parameters`
@@ -119,9 +149,12 @@ public class NeuNet{
     double[][] qTempPrime = Matrix.s(z3TempPrime);
 
     for(int i = 0; i < qTempPrime.length; i++){
-      if(collisions[i]) {targets[i][actions[i]] = rewards[i];} else{
-        targets[i][actions[i]] = rewards[i] + qTempPrime[i][actions[i]];
+      if(collisions[i]) {
+        targets[i][actions[i]] = rewards[i];
+      }else{
+        targets[i][actions[i]] = rewards[i] + 0.9*qTempPrime[i][actions[i]];
       }
+      //targets[i][actions[i]] = 0.7777; //Miracle number
     }
 
     for(int i =0; i < actions.length; i++){
@@ -146,11 +179,11 @@ public class NeuNet{
     deltaW1 = Matrix.mul(Matrix.transpose(state), delta2);
 
     //Update W
-    w1 = Matrix.subtract(w1, Matrix.sMul(5, deltaW1));
-    w2 = Matrix.subtract(w2, Matrix.sMul(5, deltaW2));
+    w1 = Matrix.subtract(w1, Matrix.sMul(3, deltaW1));
+    w2 = Matrix.subtract(w2, Matrix.sMul(3, deltaW2));
 
-    w1b = Matrix.subtract(w1b, Matrix.sMul(5, delta2));
-    w2b = Matrix.subtract(w2b, Matrix.sMul(5, delta3));
+    w1b = Matrix.subtract(w1b, Matrix.sMul(3, delta2));
+    w2b = Matrix.subtract(w2b, Matrix.sMul(3, delta3));
 
   }
 

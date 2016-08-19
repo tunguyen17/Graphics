@@ -37,7 +37,7 @@ public class Driver{
   //Constructor
   public Driver(World newWorld, Robot newRobot, Sensor[] newSensorList, Tester newTester){
 
-    d = new Memory(100, 5);
+    d = new Memory(100, 10);
     world = newWorld;
     robot = newRobot;
     sensorList = newSensorList;
@@ -69,8 +69,8 @@ public class Driver{
     //GET THE REWARDS FOR THE ACTION || r
     if(robot.collided){
       reward = 0.00001;
-
-      d.add(state, action, reward);
+      nn.back2(reward, action);
+      //d.add(state, action, reward);
       //Reset State
       fitness = 0;
 
@@ -78,7 +78,7 @@ public class Driver{
       robot.reset();
     } else{
       //no Collision
-      reward = 0.01;
+      reward = 0.05;
       statePrime = Matrix.coppy(updateSensor()); //s'
       nn.forward(statePrime);
       actionPrime = nn.max();
