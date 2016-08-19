@@ -92,7 +92,7 @@ public class Driver{
 
     }
     System.out.println("FITNESS: " + fitness);
-    //if(iteration > 100){nn.learn(d);}
+    if(iteration > 100){nn.learn(d);}
     nn.export();
   }
 

@@ -153,7 +153,7 @@ public class NeuNet{
       if(collisions[i]) {
         targets[i][actions[i]] = rewards[i];
       }else{
-        targets[i][actions[i]] = 1;
+        targets[i][actions[i]] = rewards[i] + 0.8*qTempPrime[i][actionsPrime[i]];
       }
       //targets[i][actions[i]] = 0.7777; //Miracle number
     }
