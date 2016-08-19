@@ -70,7 +70,7 @@ public class Driver{
       System.out.println("-------- ITERATION " + iteration);
       iteration++;
 
-      reward = nn.q[0][action]*0.5;
+      reward = 0.0001;
       nn.back2(reward, action);
       //d.add(state, action, reward);
       //Reset State
@@ -92,7 +92,7 @@ public class Driver{
 
     }
     System.out.println("FITNESS: " + fitness);
-    if(iteration > 100){nn.learn(d);}
+    //if(iteration > 100){nn.learn(d);}
     nn.export();
   }
 

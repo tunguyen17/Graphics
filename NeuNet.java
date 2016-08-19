@@ -100,7 +100,7 @@ public class NeuNet{
 
   public void back2(double t, int index){
 
-    double[][] target = Matrix.coppy(oldQ);
+    double[][] target = Matrix.coppy(q);
     target[0][index] = t;
 
     //max(q, r, gamma)
@@ -109,12 +109,12 @@ public class NeuNet{
     double[][] delta3;
 
     //W2
-    delta3 = Matrix.hMul( Matrix.subtract(oldQ, target), Matrix.sPrime(z3) );
+    delta3 = Matrix.hMul( Matrix.subtract(q, target), Matrix.sPrime(z3) );
     deltaW2 = Matrix.mul( Matrix.transpose(a2), delta3 );
 
     //W1
     delta2 = Matrix.hMul( Matrix.mul(delta3, Matrix.transpose(w2)), Matrix.sPrime(z2) );
-    deltaW1 = Matrix.mul(Matrix.transpose(oldInputs), delta2);
+    deltaW1 = Matrix.mul(Matrix.transpose(inputs), delta2);
 
     //Update W
     w1 = Matrix.subtract(w1, Matrix.sMul(3, deltaW1));
