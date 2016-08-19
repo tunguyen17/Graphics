@@ -37,14 +37,61 @@ public class Memory{
   }
 
   public Experience[] getBatch(){
-    System.out.println("\nnew Batch +++++++++");
     int u = (int) ( n*Math.random() );
     for(int i = 0; i < k; i++){
       u = (int) ( n*Math.random() );
-      System.out.println("\n" + u);
       batch[i] = d[u];
-      batch[i].print();
     }
     return batch;
+  }
+
+  public double[][] getS(){
+    double[][] inputs = new double[k][5];
+    for(int i = 0; i < k; i++){
+      for(int j = 0; j < 5; j++){
+        inputs[i][j] = batch[i].s[0][j];
+      }
+    }
+    //Matrix.printMat(inputs ,"inputs");
+    return inputs;
+  }
+
+  public double[][] getSPrime(){
+    double[][] inputsPrime = new double[k][5];
+    for(int i = 0; i < k; i++){
+      if(batch[i].collision){
+          inputsPrime[i] = new double[5];
+        }else{
+        for(int j = 0; j < 5; j++){
+          inputsPrime[i][j] = batch[i].sPrime[0][j];
+        }
+      }
+    }
+    //Matrix.printMat(inputs ,"inputs");
+    return inputsPrime;
+  }
+
+  public double[] getRewards(){
+    double[] rewards = new double[k];
+    for(int i = 0; i < k; i++){
+      rewards[i] = batch[i].r;
+    }
+    return rewards;
+  }
+
+  public int[] getActions(){
+    int[] actions = new int[k];
+    for(int i = 0; i < k; i++){
+      actions[i] = batch[i].a;
+    }
+    return actions;
+  }
+
+  public boolean[] getCollisions(){
+    boolean[] collisions = new boolean[k];
+    for(int i = 0; i < k; i++){
+      collisions[i] = batch[i].collision;
+    }
+    return collisions;
   }
 }

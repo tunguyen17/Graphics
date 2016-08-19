@@ -91,7 +91,7 @@ public class Driver{
 
     }
     System.out.println("FITNESS: " + fitness);
-    if(iteration > 100){d.getBatch();}
+    if(iteration > 100){nn.learn(d);}
     nn.export();
   }
 
