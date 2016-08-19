@@ -119,8 +119,8 @@ public class NeuNet{
     double[][] qTempPrime = Matrix.s(z3TempPrime);
 
     for(int i = 0; i < qTempPrime.length; i++){
-      if(collisions[i]) {targets[i][actions[i]] = 0.1;} else{
-        targets[i][actions[i]] = 0.1;
+      if(collisions[i]) {targets[i][actions[i]] = rewards[i];} else{
+        targets[i][actions[i]] = rewards[i] + qTempPrime[i][actions[i]];
       }
     }
 
@@ -138,7 +138,7 @@ public class NeuNet{
     double[][] delta3;
 
     //W2
-    delta3 = Matrix.hMul( Matrix.subtract(targets, qTemp), Matrix.sPrime(z3Temp) );
+    delta3 = Matrix.hMul( Matrix.subtract(qTemp, targets), Matrix.sPrime(z3Temp) );
     deltaW2 = Matrix.mul( Matrix.transpose(a2Temp), delta3 );
 
     //W1
@@ -146,11 +146,11 @@ public class NeuNet{
     deltaW1 = Matrix.mul(Matrix.transpose(state), delta2);
 
     //Update W
-    w1 = Matrix.subtract(w1, Matrix.sMul(55, deltaW1));
-    w2 = Matrix.subtract(w2, Matrix.sMul(55, deltaW2));
+    w1 = Matrix.subtract(w1, Matrix.sMul(5, deltaW1));
+    w2 = Matrix.subtract(w2, Matrix.sMul(5, deltaW2));
 
-    w1b = Matrix.subtract(w1b, Matrix.sMul(55, delta2));
-    w2b = Matrix.subtract(w2b, Matrix.sMul(55, delta3));
+    w1b = Matrix.subtract(w1b, Matrix.sMul(5, delta2));
+    w2b = Matrix.subtract(w2b, Matrix.sMul(5, delta3));
 
   }
 
