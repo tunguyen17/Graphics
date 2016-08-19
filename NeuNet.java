@@ -133,6 +133,7 @@ public class NeuNet{
     double[][] state = mem.getS();
     double[][] statePrime = mem.getSPrime();
     int[] actions = mem.getActions();
+    int[] actionsPrime = mem.getActionsPrime();
     double[] rewards = mem.getRewards();
     boolean[] collisions = mem.getCollisions();
 
