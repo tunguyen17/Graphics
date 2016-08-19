@@ -70,13 +70,12 @@ public class Driver{
     if(robot.collided){
       reward = 0.00001;
 
-      d.add(nn.inputs, action, reward);
+      d.add(state, action, reward);
       //Reset State
       fitness = 0;
 
       //System.out.println(ANSI_RED + "Robot collided " + reward + ANSI_RESET);
       robot.reset();
-
     } else{
       //no Collision
       reward = 0.05;

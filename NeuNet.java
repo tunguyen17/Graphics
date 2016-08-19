@@ -207,6 +207,7 @@ public class NeuNet{
     z3Temp = Matrix.add(Matrix.mul(a2Temp, w2), w2b);
     qTemp = Matrix.s(z3Temp);
 
+
     z2Temp = Matrix.add(Matrix.mul(mem.getSPrime(), w1), w1b);
     a2Temp = Matrix.s(z2Temp);
 
