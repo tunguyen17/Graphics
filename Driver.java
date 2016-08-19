@@ -37,7 +37,7 @@ public class Driver{
   //Constructor
   public Driver(World newWorld, Robot newRobot, Sensor[] newSensorList, Tester newTester){
 
-    d = new Memory(100, 10);
+    d = new Memory(100, 5);
     world = newWorld;
     robot = newRobot;
     sensorList = newSensorList;
@@ -52,9 +52,7 @@ public class Driver{
 
   public void learn(){
 
-    System.out.println("-------- ITERATION " + iteration);
 
-    iteration++;
     reward = 0; //Reset reward
     state = Matrix.coppy(updateSensor()); //s
     nn.forward(state); // Q(s, a)
@@ -68,7 +66,11 @@ public class Driver{
 
     //GET THE REWARDS FOR THE ACTION || r
     if(robot.collided){
-      reward = 0.00001;
+
+      System.out.println("-------- ITERATION " + iteration);
+      iteration++;
+
+      reward = nn.q[0][action]*0.5;
       nn.back2(reward, action);
       //d.add(state, action, reward);
       //Reset State

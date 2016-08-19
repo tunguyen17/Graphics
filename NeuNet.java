@@ -152,7 +152,7 @@ public class NeuNet{
       if(collisions[i]) {
         targets[i][actions[i]] = rewards[i];
       }else{
-        targets[i][actions[i]] = rewards[i] + 0.9*qTempPrime[i][actions[i]];
+        targets[i][actions[i]] = 1;
       }
       //targets[i][actions[i]] = 0.7777; //Miracle number
     }
@@ -179,11 +179,11 @@ public class NeuNet{
     deltaW1 = Matrix.mul(Matrix.transpose(state), delta2);
 
     //Update W
-    w1 = Matrix.subtract(w1, Matrix.sMul(3, deltaW1));
-    w2 = Matrix.subtract(w2, Matrix.sMul(3, deltaW2));
+    w1 = Matrix.subtract(w1, Matrix.sMul(5, deltaW1));
+    w2 = Matrix.subtract(w2, Matrix.sMul(5, deltaW2));
 
-    w1b = Matrix.subtract(w1b, Matrix.sMul(3, delta2));
-    w2b = Matrix.subtract(w2b, Matrix.sMul(3, delta3));
+    w1b = Matrix.subtract(w1b, Matrix.sMul(5, delta2));
+    w2b = Matrix.subtract(w2b, Matrix.sMul(5, delta3));
 
   }
 
