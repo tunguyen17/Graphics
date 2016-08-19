@@ -60,7 +60,7 @@ public class Driver{
     nn.forward(state); // Q(s, a)
 
     //Action chooser
-    if(Math.random()<0.01 && iteration < 2000) action = (int) (3.0*Math.random());
+    if(Math.random()<0.5 && iteration < 100) action = (int) (3.0*Math.random());
       else action = nn.max(); //a
 
     drive(action); // carry out action a
@@ -78,7 +78,7 @@ public class Driver{
       robot.reset();
     } else{
       //no Collision
-      reward = 0.05;
+      reward = 0.01;
       statePrime = Matrix.coppy(updateSensor()); //s'
       nn.forward(statePrime);
       actionPrime = nn.max();

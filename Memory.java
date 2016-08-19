@@ -37,7 +37,7 @@ public class Memory{
   }
 
   public Experience[] getBatch(){
-    int u = (int) ( n*Math.random() );
+      int u;
     for(int i = 0; i < k; i++){
       u = (int) ( n*Math.random() );
       batch[i] = d[u];
