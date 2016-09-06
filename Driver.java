@@ -58,7 +58,7 @@ public class Driver{
     nn.forward(state); // Q(s, a)
 
     //Action chooser
-    if(Math.random()<0.1 && iteration < 10) action = (int) (3.0*Math.random());
+    if(Math.random()<0.1) action = (int) (3.0*Math.random());
       else action = nn.max(); //a
 
     drive(action); // carry out action a
