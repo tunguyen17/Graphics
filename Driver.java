@@ -58,7 +58,7 @@ public class Driver{
     nn.forward(state); // Q(s, a)
 
     //Action chooser
-    if(Math.random()<0.5 && iteration < 100) action = (int) (3.0*Math.random());
+    if(Math.random()<0.1 && iteration < 10) action = (int) (3.0*Math.random());
       else action = nn.max(); //a
 
     drive(action); // carry out action a
@@ -70,7 +70,7 @@ public class Driver{
       System.out.println("-------- ITERATION " + iteration);
       iteration++;
 
-      reward = 0.0001;
+      reward = 0.001;
       nn.back2(reward, action);
       //d.add(state, action, reward);
       //Reset State

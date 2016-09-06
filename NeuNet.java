@@ -100,7 +100,7 @@ public class NeuNet{
 
   public void back2(double t, int index){
 
-    double[][] target = Matrix.coppy(q);
+    double[][] target = Matrix.coppy(oldQ);
     target[0][index] = t;
 
     //max(q, r, gamma)
@@ -153,7 +153,7 @@ public class NeuNet{
       if(collisions[i]) {
         targets[i][actions[i]] = rewards[i];
       }else{
-        targets[i][actions[i]] = rewards[i] + 0.8*qTempPrime[i][actionsPrime[i]];
+        targets[i][actions[i]] = 0.7777;
       }
       //targets[i][actions[i]] = 0.7777; //Miracle number
     }
