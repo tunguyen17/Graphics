@@ -7,7 +7,7 @@ public class Runner{
   public static void main(String[] args) throws InterruptedException{
     //Box
     Box[] box = new Box[4];
-    box[0] = new Box(150, 230, 900, 300);
+    box[0] = new Box(150, 240, 900, 300);
     box[1] = new Box(150, 160, 80, 120);
     box[2] = new Box(300, 100, 350, 80);
     box[3] = new Box(720, 180, 330, 100);
