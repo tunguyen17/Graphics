@@ -93,7 +93,7 @@ public class Driver{
 
 
     // newQ += learnging rate * (reward + gamma.maxCurrentQ(currentState, currentAction) - oldQ)
-    prevQ[prevAction] += 0.3 * (reward + 0.3*currQ[action] - prevQ[prevAction]);
+    prevQ[prevAction] += 0.3 * (reward + 0.3* (currQ[action] - prevQ[prevAction]) );
 
     //System.out.print(currQ[0]+"  ");
     //System.out.print(currQ[1]+"  ");

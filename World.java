@@ -2,7 +2,6 @@
 * Contains the basic drawing board
 */
 //package graphics;
-
 import java.awt.Color;
 
 import java.awt.Graphics;
@@ -62,6 +61,7 @@ public class World extends JPanel{
     g2 = (Graphics2D) (img.getGraphics());
 
     sensorReadings = new int[5][2];
+
   }
 
   //Setter
@@ -82,21 +82,24 @@ public class World extends JPanel{
     //Border
     g2.setColor(Color.YELLOW);
     g2.setStroke(new BasicStroke(2));
-    g2.fillOval(140,140,width+20,height+20);
+    g2.fillRect(90,90,width+20,height+20);
     g2.setColor(Color.WHITE);
-    g2.fillOval(150, 150, width, height);
+    g2.fillRect(100, 100, width, height);
 
     //drawBox
     g2.setColor(Color.ORANGE);
     for(int i = 0; i< box.length; i++){
-      g2.fillOval(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
+      g2.fillRect(box[i].xPos, box[i].yPos, box[i].width, box[i].height);
     }
+
+    //Test if robot has collided
     if(tester.robotCollision()){robot.collided=true;}
-    //Robot Stuff
+
+    //Draw Robot | body
     g2.setColor(Color.GREEN);
     g2.fillOval(robot.getX()-5, robot.getY()-5, 10, 10);
 
-    //head of robot
+    //Draw Robot | Heading
     g2.setStroke(new BasicStroke(5));
     g2.drawLine(robot.getX(), robot.getY(), (int) (robot.getX() + 10*Math.cos(robot.getHeading())), (int) (robot.getY() + 10*Math.sin(robot.getHeading())));
 
@@ -114,11 +117,10 @@ public class World extends JPanel{
       g2.fillOval(sensor[i].getEndpointX()-1, sensor[i].getEndpointY()-1, 3, 3);
     }
 
-    //Path
+    //Draw Robot's Path
     for(int i = 0; i < path.getLength(); i++){
       g2.setColor(new Color(255 - 4*i,255 - 2*i, 255 -  5*i));
       g2.fillOval(xPath.getPath()[i]-2, yPath.getPath()[i]-2, 4, 4);
-
     }
 
   }
